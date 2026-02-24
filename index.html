@@ -266,16 +266,19 @@
           <div class="health-desc">Pulls latest program docs from Drive via MCP — converts to tagged markdown with source links and backlinks. Net New Knowledge summary included.</div>
           <div class="health-hint">↗ Preview</div>
         </div>
+        <div class="health-card featured" onclick="openModal('slack')">
+          <div class="health-card-top">
+            <span class="health-cmd">/hub:slack-sync</span>
+            <span class="mcp-badge">⚡ Glean MCP · Alpha</span>
+          </div>
+          <div class="health-name">Slack Sync</div>
+          <div class="health-desc">Pulls program-relevant Slack threads via Glean MCP — decisions, escalations, and context captured automatically from channels like #w3-hardware-builds.</div>
+          <div class="health-hint">↗ Preview</div>
+        </div>
         <div class="health-card" onclick="openModal('currency')">
           <div class="health-card-top"><span class="health-cmd">/hub:doc-currency</span></div>
           <div class="health-name">Documentation Currency Check</div>
           <div class="health-desc">Full vault health audit — flags stale docs, missing bidirectional links, and broken backlink coverage.</div>
-          <div class="health-hint">↗ Preview</div>
-        </div>
-        <div class="health-card" onclick="openModal('backlinks')">
-          <div class="health-card-top"><span class="health-cmd">/hub:backlinks</span></div>
-          <div class="health-name">Backlink Validator</div>
-          <div class="health-desc">Audits knowledge graph integrity — ensures no documentation islands that break cross-reference navigation.</div>
           <div class="health-hint">↗ Preview</div>
         </div>
         <div class="health-card" onclick="openModal('crosslink')">
@@ -526,31 +529,36 @@ const reports = {
     </div>
     <div class="source-note">📄 Full vault audit · 47 documents checked · Stale threshold: 30 days with linked-doc changes · Run: Feb 22, 2026</div>`
   },
-  backlinks: {
-    cmd: '/hub:backlinks', cmdClass: 'modal-cmd-blue',
-    title: 'Backlink Validator — Knowledge Graph Integrity',
-    meta: 'Run Feb 22, 2026 · W3 Hardware Wallet vault · 47 documents',
-    html: `<div class="health-stat-row">
-      <div class="metric-card"><div class="metric-val blue">47</div><div class="metric-lbl">Docs in Vault</div></div>
-      <div class="metric-card"><div class="metric-val green">41</div><div class="metric-lbl">Connected to Hub</div></div>
-      <div class="metric-card"><div class="metric-val red">6</div><div class="metric-lbl">Documentation<br>Islands</div></div>
+  slack: {
+    cmd: '/hub:slack-sync', cmdClass: 'modal-cmd-blue',
+    title: 'Slack Sync — Glean MCP · Alpha',
+    meta: 'Alpha · Executed Feb 22, 2026 · Via Glean MCP connector · Channels: #w3-hardware-builds, #w3-touch-enablement, #w3-compliance, #w3-esd-investigation',
+    html: `<div class="mcp-callout">
+      <div>
+        <div class="mcp-callout-label">⚡ Glean MCP — Alpha Testing</div>
+        <div class="mcp-callout-text">Claude Code connects to Slack via the Glean MCP connector — scanning program channels for decisions, escalations, and context that never make it into formal documents. Threads are converted to structured vault notes, tagged by topic, and linked back into the knowledge graph. <strong>Captures the informal record that formal docs miss.</strong></div>
+      </div>
     </div>
-    <div class="report-section"><div class="report-section-title blue">Documentation Islands — Not Connected to Program Hub</div>
-    <div class="table-wrap"><table><thead><tr><th>Document</th><th>Issue</th><th>Recommended Fix</th></tr></thead><tbody>
-      <tr><td>2026-02-19-W3-DVT-Dry-Run-ATE-Debug</td><td>No path to W3-Hardware-Wallet hub</td><td>Add backlink from W3 Core Team Agenda 2/17</td></tr>
-      <tr><td>DVT-Build-Allocation-Analysis</td><td>Only referenced by one doc; not hub-linked</td><td>Add to W3 hub under DVT Build section</td></tr>
-      <tr><td>2026-02-19-W3-NFC-Volume-Characterization-1-Pager</td><td>Newly synced; no backlinks yet</td><td>Link from NFC Performance decision doc and weekly report</td></tr>
-    </tbody></table></div></div>
-    <div class="report-section"><div class="report-section-title blue">Hub Connectivity — By Document Type</div>
-    <div class="table-wrap"><table><thead><tr><th>Type</th><th>Total</th><th>Connected</th><th>Coverage</th></tr></thead><tbody>
-      <tr><td>Risk documents</td><td>8</td><td>8</td><td>🟢 100%</td></tr>
-      <tr><td>Meeting notes</td><td>12</td><td>11</td><td>🟢 92%</td></tr>
-      <tr><td>Readiness assessments</td><td>5</td><td>5</td><td>🟢 100%</td></tr>
-      <tr><td>Technical analyses</td><td>9</td><td>6</td><td>🟡 67%</td></tr>
-      <tr><td>Build summaries</td><td>4</td><td>4</td><td>🟢 100%</td></tr>
-      <tr><td>Decision docs</td><td>9</td><td>7</td><td>🟡 78%</td></tr>
-    </tbody></table></div></div>
-    <div class="source-note">📄 Knowledge graph audit · 47 documents · W3 Hardware Wallet vault · Run: Feb 22, 2026</div>`
+    <div class="report-section"><div class="report-section-title blue">Sync Summary — Feb 22, 2026</div>
+    <div class="health-stat-row">
+      <div class="metric-card"><div class="metric-val blue">4</div><div class="metric-lbl">Channels<br>Scanned</div></div>
+      <div class="metric-card"><div class="metric-val green">11</div><div class="metric-lbl">Threads<br>Captured</div></div>
+      <div class="metric-card"><div class="metric-val yellow">3</div><div class="metric-lbl">Informal Decisions<br>Surfaced</div></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Threads Captured — Net New Context</div>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <div class="sync-file-row"><span class="sync-filename">#w3-esd-investigation · Feb 19 · Joe Laucks + Israel</span><span class="sync-badge-new">DECISION</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-hardware-builds · Feb 20 · Tumble FA ownership thread</span><span class="sync-badge-stale">ESCALATION</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-hardware-builds · Feb 19 · ATE dry run debug log (Zach)</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-touch-enablement · Feb 18 · Alpha firmware delivery confirmed</span><span class="sync-badge-upd">UPDATED</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-compliance · Feb 17 · EU cert restart trigger clarification</span><span class="sync-badge-new">NEW</span></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Informal Decisions Surfaced</div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-esd-investigation (Feb 19)</strong> — Joe Laucks confirmed DNP U2 + soldermask fix validated on bench. Decision made in thread before formal doc written. Now linked to RISK-013 and DVT-Readiness-Assessment.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-hardware-builds (Feb 20)</strong> — Nick George acknowledged tumble FA ownership in thread. Not yet in any formal doc. Captured and linked to RISK-010.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-compliance (Feb 17)</strong> — Simon Ma clarified EU cert restart trigger is "DVT ESD multi-unit validation complete." Captured as decision note; linked to RISK-013 and weekly prep briefing.</div></div>
+    </div>
+    <div class="source-note">📄 Synced from: #w3-hardware-builds · #w3-touch-enablement · #w3-compliance · #w3-esd-investigation · Via Glean MCP · Alpha — fundamentals operational</div>`
   },
   crosslink: {
     cmd: '/hub:cross-link', cmdClass: 'modal-cmd-blue',
