@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vault</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #d1d5db;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh;
+  }
+  .slide {
+    width: 1440px;
+    background: #ffffff;
+    display: flex; flex-direction: column;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 60px rgba(0,0,0,.15);
+    overflow: hidden; flex-shrink: 0; position: relative;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 26px 48px 18px;
+    border-bottom: 2px solid #f3f4f6; flex-shrink: 0;
+  }
+  .title-vault { font-size: 44px; font-weight: 800; letter-spacing: -1.5px; color: #111827; line-height: 1; }
+  .title-vault span { color: #dc2626; }
+  .title-sub { font-size: 13px; color: #9ca3af; letter-spacing: .07em; text-transform: uppercase; margin-top: 4px; }
+  .badge { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; }
+
+  /* PLATFORM */
+  .platform-section { padding: 18px 48px 16px; border-bottom: 1px solid #f3f4f6; flex-shrink: 0; }
+  .section-label { font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #dc2626; margin-bottom: 13px; text-align: center; }
+  .flow { display: flex; align-items: stretch; justify-content: center; }
+  .flow-node { display: flex; flex-direction: column; align-items: center; width: 195px; }
+  .flow-node-inner { display: flex; flex-direction: column; align-items: center; gap: 7px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 14px; width: 100%; height: 100%; justify-content: center; }
+  .flow-node-inner.highlight { background: #fef9f9; border-color: #fecaca; }
+  .logo-box { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+  .logo-box svg { width: 100%; height: 100%; }
+  .flow-node-name { font-size: 13px; font-weight: 700; color: #111827; text-align: center; margin-top: 3px; }
+  .flow-node-desc { font-size: 10.5px; color: #6b7280; text-align: center; line-height: 1.45; }
+  .flow-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0 8px; flex-shrink: 0; }
+  .arrow-line { width: 46px; height: 2px; background: #e5e7eb; position: relative; }
+  .arrow-line::after { content: ''; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left-color: #d1d5db; }
+  .arrow-label { font-size: 9px; color: #9ca3af; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* BOTTOM — 3 columns */
+  .bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; flex: 1; overflow: hidden; }
+  .col { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+  .col-left  { padding: 14px 16px 14px 48px; border-right: 1px solid #f3f4f6; }
+  .col-mid   { padding: 14px 16px; border-right: 1px solid #f3f4f6; }
+  .col-right { padding: 14px 48px 14px 16px; }
+
+  .sub-label { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #6b7280; margin-bottom: 2px; }
+
+  /* Command cards */
+  .cmd-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; flex: 1; }
+  .cmd-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 7px; padding: 10px 11px; display: flex; flex-direction: column; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; }
+  .cmd-card:hover { border-color: #dc2626; box-shadow: 0 2px 10px rgba(220,38,38,.12); transform: translateY(-1px); }
+  .cmd-card:hover .cmd-tag { background: #dc2626; color: #fff; }
+  .cmd-tag { font-family: 'Consolas','Courier New',monospace; font-size: 10px; font-weight: 700; color: #dc2626; background: #fef2f2; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 4px; transition: background .15s, color .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .cmd-name { font-size: 11px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+  .cmd-desc { font-size: 10px; color: #6b7280; line-height: 1.4; }
+  .cmd-hint { font-size: 10px; color: #dc2626; margin-top: auto; padding-top: 5px; opacity: 0; transition: opacity .15s; }
+  .cmd-card:hover .cmd-hint { opacity: 1; }
+
+  /* Conversational use cards */
+  .use-cases { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .use-card { background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid #dc2626; border-radius: 0 6px 6px 0; padding: 8px 11px; display: flex; gap: 10px; align-items: flex-start; flex: 1; }
+  .use-title { font-size: 11px; font-weight: 700; color: #111827; white-space: nowrap; min-width: 140px; flex-shrink: 0; }
+  .use-desc { font-size: 10px; color: #6b7280; line-height: 1.45; }
+
+  /* Vault health cards */
+  .health-cards { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .health-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 7px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; }
+  .health-card:hover { border-color: #2563eb; box-shadow: 0 2px 10px rgba(37,99,235,.1); transform: translateY(-1px); }
+  .health-card.featured { border-color: #bfdbfe; background: #eff6ff; }
+  .health-card.featured:hover { border-color: #2563eb; }
+  .health-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .health-cmd { font-family: 'Consolas','Courier New',monospace; font-size: 10px; font-weight: 700; color: #2563eb; background: #dbeafe; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
+  .health-card:hover .health-cmd { background: #2563eb; color: #fff; }
+  .health-card.featured .health-cmd { background: #2563eb; color: #fff; }
+  .mcp-badge { font-size: 9px; font-weight: 700; color: #059669; background: #d1fae5; border: 1px solid #6ee7b7; padding: 1px 6px; border-radius: 3px; white-space: nowrap; letter-spacing: .04em; }
+  .health-name { font-size: 11px; font-weight: 700; color: #111827; }
+  .health-desc { font-size: 10px; color: #6b7280; line-height: 1.4; }
+  .health-hint { font-size: 10px; color: #2563eb; margin-top: auto; padding-top: 4px; opacity: 0; transition: opacity .15s; }
+  .health-card:hover .health-hint { opacity: 1; }
+
+
+
+  /* MODAL */
+  .modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal { background: #fff; border-radius: 14px; width: 860px; max-height: 600px; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,.25); transform: translateY(12px); transition: transform .2s; overflow: hidden; }
+  .modal-overlay.active .modal { transform: translateY(0); }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px 14px; border-bottom: 1px solid #f3f4f6; flex-shrink: 0; }
+  .modal-title-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .modal-cmd-red { font-family: 'Consolas',monospace; font-size: 12px; font-weight: 700; color: #dc2626; background: #fef2f2; padding: 3px 9px; border-radius: 4px; }
+  .modal-cmd-blue { font-family: 'Consolas',monospace; font-size: 12px; font-weight: 700; color: #2563eb; background: #dbeafe; padding: 3px 9px; border-radius: 4px; }
+  .modal-title { font-size: 15px; font-weight: 700; color: #111827; }
+  .modal-meta { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+  .modal-close { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #e5e7eb; background: #f9fafb; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #6b7280; transition: background .1s; flex-shrink: 0; }
+  .modal-close:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+  .modal-body { flex: 1; overflow-y: auto; padding: 18px 22px 22px; }
+  .modal-body::-webkit-scrollbar { width: 5px; }
+  .modal-body::-webkit-scrollbar-track { background: #f9fafb; }
+  .modal-body::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+
+  /* Report content */
+  .report-section { margin-bottom: 16px; }
+  .report-section-title { font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: #dc2626; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #fee2e2; }
+  .report-section-title.blue { color: #2563eb; border-bottom-color: #bfdbfe; }
+  .status-banner { display: flex; align-items: center; gap: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; }
+  .status-banner.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .status-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .status-pill.yellow { background: #fef3c7; color: #b45309; }
+  .status-pill.blue { background: #dbeafe; color: #1d4ed8; }
+  .status-text { font-size: 12px; color: #374151; line-height: 1.5; }
+  .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+  .metric-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .metric-val { font-size: 22px; font-weight: 800; color: #111827; line-height: 1; }
+  .metric-val.red { color: #dc2626; } .metric-val.green { color: #16a34a; } .metric-val.yellow { color: #d97706; } .metric-val.blue { color: #2563eb; }
+  .metric-lbl { font-size: 10px; color: #6b7280; margin-top: 3px; line-height: 1.3; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  thead th { background: #f9fafb; font-weight: 700; color: #374151; text-align: left; padding: 7px 10px; border-bottom: 2px solid #e5e7eb; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid #f3f4f6; color: #374151; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #fafafa; }
+  .sev-p0 { background: #fee2e2; color: #b91c1c; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
+  .sev-p1 { background: #fef3c7; color: #b45309; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
+  .badge-watch { background: #fef9c3; color: #713f12; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .badge-res { background: #dcfce7; color: #14532d; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .item-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; font-size: 12px; }
+  .item-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .item-dot.red { background: #dc2626; } .item-dot.yellow { background: #d97706; } .item-dot.green { background: #16a34a; } .item-dot.blue { background: #2563eb; }
+  .item-text { color: #374151; line-height: 1.5; }
+  .item-text strong { color: #111827; }
+  .decision-card { background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid #dc2626; border-radius: 0 6px 6px 0; padding: 9px 12px; margin-bottom: 7px; }
+  .decision-q { font-size: 12px; font-weight: 700; color: #111827; }
+  .decision-meta { font-size: 11px; color: #6b7280; margin-top: 2px; }
+  .sync-file-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-bottom: 1px solid #f3f4f6; font-size: 11px; }
+  .sync-file-row:last-child { border-bottom: none; }
+  .sync-filename { color: #374151; font-family: 'Consolas',monospace; font-size: 10px; }
+  .sync-badge-new { background: #dcfce7; color: #15803d; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 3px; }
+  .sync-badge-upd { background: #dbeafe; color: #1d4ed8; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 3px; }
+  .sync-badge-stale { background: #fee2e2; color: #b91c1c; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 3px; }
+  .health-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .source-note { font-size: 10px; color: #9ca3af; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 7px 12px; margin-top: 14px; }
+  .mcp-callout { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 11px 14px; margin-bottom: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .mcp-callout-label { font-size: 10px; font-weight: 700; color: #059669; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+  .mcp-callout-text { font-size: 11px; color: #374151; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="title-vault">"The <span>Vault</span>"</div>
+      <div class="title-sub">NPI Intelligence Platform &nbsp;·&nbsp; W3 Hardware Wallet &nbsp;·&nbsp; DVT March 2026</div>
+    </div>
+    <div class="badge">Block Hardware Engineering</div>
+  </div>
+
+  <!-- PLATFORM FLOW -->
+  <div class="platform-section">
+    <div class="section-label">Platform Architecture</div>
+    <div class="flow">
+      <div class="flow-node">
+        <div class="flow-node-inner">
+          <div class="logo-box"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="9" fill="#f3f4f6"/><rect x="9" y="10" width="7" height="7" rx="1.5" fill="#9ca3af"/><rect x="19" y="11.5" width="16" height="3" rx="1.5" fill="#d1d5db"/><rect x="9" y="20" width="7" height="7" rx="1.5" fill="#9ca3af"/><rect x="19" y="21.5" width="16" height="3" rx="1.5" fill="#d1d5db"/><rect x="9" y="30" width="7" height="7" rx="1.5" fill="#9ca3af"/><rect x="19" y="31.5" width="16" height="3" rx="1.5" fill="#d1d5db"/></svg></div>
+          <div class="flow-node-name">Program Data</div>
+          <div class="flow-node-desc">Build reports, MILs, decisions, meeting notes, risks</div>
+        </div>
+      </div>
+      <div class="flow-arrow"><div class="arrow-line"></div><div class="arrow-label">sync</div></div>
+      <div class="flow-node">
+        <div class="flow-node-inner highlight">
+          <div class="logo-box"><svg viewBox="0 0 512 512"><path d="M381.85 56.6c-13.09-8.73-31.28-6.38-42.09 2.91l-86.78 72.9-80.29-31.37c-14.26-5.57-30.45-.15-38.68 12.8L56.22 249.07c-8.23 12.95-6.45 29.96 4.28 41l118.7 122.06c5.87 6.03 13.89 9.53 22.3 9.53h.82c8.76-.24 17.02-4.31 22.7-11.15l111.96-136.27 72.77 13.85c15.33 2.92 30.38-5.94 35.2-20.77l47.21-143.8c4.83-14.71-1.13-30.89-14.33-38.97z" fill="#7C3AED"/><path d="M381.85 56.6c-13.09-8.73-31.28-6.38-42.09 2.91l-86.78 72.9 60.52 139.17 72.77 13.85c15.33 2.92 30.38-5.94 35.2-20.77l47.21-143.8c4.83-14.71-1.13-30.89-14.33-38.97-.5-.29-1-.57-1.5-.83z" fill="#6D28D9"/><path d="M253 132.41l-80.29-31.37c-14.26-5.57-30.45-.15-38.68 12.8L56.22 249.07c-8.23 12.95-6.45 29.96 4.28 41l118.7 122.06c5.87 6.03 13.89 9.53 22.3 9.53h.82c8.76-.24 17.02-4.31 22.7-11.15l111.96-136.27z" fill="#8B5CF6"/><ellipse cx="228" cy="291" rx="33" ry="49" transform="rotate(-30 228 291)" fill="#DDD6FE" opacity=".55"/></svg></div>
+          <div class="flow-node-name">Obsidian Vault</div>
+          <div class="flow-node-desc">Structured markdown, wiki-links, version-controlled knowledge graph</div>
+        </div>
+      </div>
+      <div class="flow-arrow"><div class="arrow-line"></div><div class="arrow-label">reads</div></div>
+      <div class="flow-node">
+        <div class="flow-node-inner highlight">
+          <div class="logo-box"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="9" fill="#fef2f2"/><path d="M27.6 11h-4.22l8.02 22h4.24L27.6 11zm-11.2 0L7.36 33h4.3l1.65-4.46h8.42L23.38 33h4.3L19.63 11h-3.23zm-.67 13.9 2.8-7.58 2.8 7.58h-5.6z" fill="#CC2B2B"/></svg></div>
+          <div class="flow-node-name">Claude Code</div>
+          <div class="flow-node-desc">Anthropic AI — reads full vault, executes NPI commands, sources every output</div>
+        </div>
+      </div>
+      <div class="flow-arrow"><div class="arrow-line"></div><div class="arrow-label">produces</div></div>
+      <div class="flow-node">
+        <div class="flow-node-inner">
+          <div class="logo-box"><svg viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="9" fill="#f0fdf4"/><rect x="9" y="12" width="22" height="3.5" rx="1.75" fill="#16a34a" opacity=".5"/><rect x="9" y="19" width="22" height="3.5" rx="1.75" fill="#16a34a" opacity=".5"/><rect x="9" y="26" width="15" height="3.5" rx="1.75" fill="#16a34a" opacity=".5"/><circle cx="33" cy="32" r="7" fill="#16a34a"/><path d="M30 32l2.2 2.2 3.8-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="flow-node-name">Executive Output</div>
+          <div class="flow-node-desc">Sourced, accurate, ready to present — no placeholders, no blank pages</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM — 3 columns -->
+  <div class="bottom">
+
+    <!-- COL 1: Automated Commands -->
+    <div class="col col-left">
+      <div class="sub-label">Automated Commands — click to preview</div>
+      <div class="cmd-grid">
+        <div class="cmd-card" onclick="openModal('readiness')">
+          <div class="cmd-tag">/hub:readiness</div>
+          <div class="cmd-name">Build Readiness</div>
+          <div class="cmd-desc">GO/NO-GO with confidence rating (EVT→DVT→PVT)</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+        <div class="cmd-card" onclick="openModal('weekly')">
+          <div class="cmd-tag">/hub:weekly-report</div>
+          <div class="cmd-name">Executive Report</div>
+          <div class="cmd-desc">12-section report, WoW deltas auto-calculated</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+        <div class="cmd-card" onclick="openModal('mil')">
+          <div class="cmd-tag">/hub:master-mil</div>
+          <div class="cmd-name">Master MIL</div>
+          <div class="cmd-desc">Cross-build issue aggregation with lineage tracking</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+        <div class="cmd-card" onclick="openModal('compare')">
+          <div class="cmd-tag">/hub:compare</div>
+          <div class="cmd-name">Build Comparator</div>
+          <div class="cmd-desc">NEW / RESOLVED / RECURRING classification</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+        <div class="cmd-card" onclick="openModal('briefing')">
+          <div class="cmd-tag">/hub:briefing</div>
+          <div class="cmd-name">Weekly Briefing</div>
+          <div class="cmd-desc">Priorities, open loops, delegated items</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+        <div class="cmd-card" onclick="openModal('agenda')">
+          <div class="cmd-tag">/hub:agenda</div>
+          <div class="cmd-name">Meeting Agenda</div>
+          <div class="cmd-desc">Pre-populated, risks by severity, zero manual prep</div>
+          <div class="cmd-hint">↗ Preview</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Vault Health -->
+    <div class="col col-mid">
+      <div class="sub-label">Vault Health &amp; Knowledge — click to preview</div>
+      <div class="health-cards">
+        <div class="health-card featured" onclick="openModal('sync')">
+          <div class="health-card-top">
+            <span class="health-cmd">/hub:sync</span>
+            <span class="mcp-badge">⚡ Powered by MCP</span>
+          </div>
+          <div class="health-name">Google Drive Sync</div>
+          <div class="health-desc">Pulls latest program docs from Drive via MCP — converts to tagged markdown with source links and backlinks. Net New Knowledge summary included.</div>
+          <div class="health-hint">↗ Preview</div>
+        </div>
+        <div class="health-card featured" onclick="openModal('slack')">
+          <div class="health-card-top">
+            <span class="health-cmd">/hub:slack-sync</span>
+            <span class="mcp-badge">⚡ Glean MCP · Alpha</span>
+          </div>
+          <div class="health-name">Slack Sync</div>
+          <div class="health-desc">Pulls program-relevant Slack threads via Glean MCP — decisions, escalations, and context captured automatically from channels like #w3-hardware-builds.</div>
+          <div class="health-hint">↗ Preview</div>
+        </div>
+        <div class="health-card" onclick="openModal('currency')">
+          <div class="health-card-top"><span class="health-cmd">/hub:doc-currency</span></div>
+          <div class="health-name">Documentation Currency Check</div>
+          <div class="health-desc">Full vault health audit — flags stale docs, missing bidirectional links, and broken backlink coverage.</div>
+          <div class="health-hint">↗ Preview</div>
+        </div>
+        <div class="health-card" onclick="openModal('crosslink')">
+          <div class="health-card-top"><span class="health-cmd">/hub:cross-link</span></div>
+          <div class="health-name">Cross-Document Linker</div>
+          <div class="health-desc">Scans vault for related documents and adds bidirectional wiki-links — improves AI retrieval quality across builds.</div>
+          <div class="health-hint">↗ Preview</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: Conversational Intelligence -->
+    <div class="col col-right">
+      <div class="sub-label">Conversational Intelligence — Five Core Skills</div>
+      <div class="use-cases">
+        <div class="use-card"><div class="use-title">Brief Me</div><div class="use-desc">Before any meeting or decision — prior decisions, open risks, build data, outstanding actions. A tight brief, not a search result.</div></div>
+        <div class="use-card"><div class="use-title">Synthesize What We Know</div><div class="use-desc">Pull everything across builds, doc types, and time into a coherent answer. EVT learnings surface in a DVT question.</div></div>
+        <div class="use-card"><div class="use-title">Draft It</div><div class="use-desc">Convert intent and vault context into polished, audience-calibrated output. Documents start from real program data.</div></div>
+        <div class="use-card"><div class="use-title">Interpret New Information</div><div class="use-desc">Hand it a BRR deck or test report — returns what's new, what conflicts with prior data, and what it means for the program.</div></div>
+        <div class="use-card"><div class="use-title">Surface What You're Not Seeing</div><div class="use-desc">Recurring issues carrying forward. Risks not updated in weeks. Patterns that only emerge across the full corpus.</div></div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title-wrap">
+            <span id="modalCmd"></span>
+            <span class="modal-title" id="modalTitle"></span>
+          </div>
+          <div class="modal-meta" id="modalMeta"></div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const reports = {
+  readiness: {
+    cmd: '/hub:readiness', cmdClass: 'modal-cmd-red',
+    title: 'DVT Build Readiness Assessment',
+    meta: 'Generated Feb 22, 2026 · W3 Hardware Wallet · Sources: DVT-Readiness-Assessment-2026-02-17, PDVT-Build-Summary, Master-MIL',
+    html: `<div class="status-banner"><span class="status-pill yellow">🟡 CONDITIONAL GO</span><span class="status-text"><strong>Confidence: 80% (Medium-High)</strong> — DVT start March 4, 2026 (FAI). All 5 gate criteria met. BRR Gate Feb 23 is final approval. Confidence revised from 82% after 5/5 tumble failure on Corian housing (Feb 19).</span></div>
+    <div class="metric-row">
+      <div class="metric-card"><div class="metric-val green">98.45%</div><div class="metric-lbl">PDVT SMT Yield<br>(target ≥95%)</div></div>
+      <div class="metric-card"><div class="metric-val green">90.93%</div><div class="metric-lbl">PDVT FATP Yield<br>(target ≥85%)</div></div>
+      <div class="metric-card"><div class="metric-val green">100%</div><div class="metric-lbl">MIL Resolution<br>PDVT (11/11)</div></div>
+      <div class="metric-card"><div class="metric-val red">5/5</div><div class="metric-lbl">Tumble FAIL<br>Corian chip-off</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title">Gate Criteria Status</div>
+    <div class="table-wrap"><table><thead><tr><th>Criterion</th><th>Status</th><th>Confidence</th></tr></thead><tbody>
+      <tr><td>Design Freeze</td><td>🟢 COMPLETE — MLB Ok2Fab 1/29, BOM 100% locked (252 items)</td><td>95%</td></tr>
+      <tr><td>Touch Validation</td><td>🟢 COMPLETE — 127 FATP units at 90.93% yield; alpha testing in progress</td><td>82%</td></tr>
+      <tr><td>Battery Lifetime</td><td>🟢 COMPLETE — ~28 months shelf life predicted with DVT fixes</td><td>90%</td></tr>
+      <tr><td>Manufacturing Proven</td><td>🟢 VALIDATED — PDVT yields exceed all targets; 100% MIL resolution</td><td>95%</td></tr>
+      <tr><td>BOM Lock 100%</td><td>🟢 COMPLETE — EE 106/106, ME 19/19, Fixtures 32/36</td><td>90%</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title">BRR Conditions — Required by Feb 23</div>
+      <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>ESD root cause CONFIRMED (2/19)</strong> — Soldermask pullback + DNP U2. No PCB spin. DVT BOM changes in progress.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>NFC Performance Decision</strong> — Ahmad's optimization results due 2/19. Recommended: DVT GO with 2–3 variants.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>Touch UX Acceptability</strong> — Alpha testing 2/17–2/23. Success criteria: ≥90% task completion, &lt;10% frustration.</div></div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA (NEW 2/19)</strong> — 5/5 Corian chip-off at 0.5m. DVT wall thinner than failing PDVT units. FA owner needed before BRR.</div></div>
+    </div>
+    <div class="source-note">📄 Sources: DVT-Readiness-Assessment-2026-02-17 · PDVT-Build-Summary · master-mil.csv · RISK-010, RISK-013</div>`
+  },
+  weekly: {
+    cmd: '/hub:weekly-report', cmdClass: 'modal-cmd-red',
+    title: 'NPI Weekly Executive Report — W08',
+    meta: 'Week ending Feb 20, 2026 · W3 Hardware Wallet · Sources: 2026-02-20-W3-NPI-Weekly, DVT-Readiness-Assessment',
+    html: `<div class="status-banner"><span class="status-pill yellow">🟡 Yellow</span><span class="status-text"><strong>Conditional GO — 82% confidence.</strong> BRR gate Monday Feb 23 is final DVT approval. Two critical new data points: 5/5 tumble failure on Corian housing and DVT dry run ATE slot-specific fixture failures.</span></div>
+    <div class="report-section"><div class="report-section-title">Program Status — Week-over-Week</div>
+    <div class="table-wrap"><table><thead><tr><th>Workstream</th><th>Status</th><th>WoW</th><th>Key Driver</th></tr></thead><tbody>
+      <tr><td>Hardware / Mechanical</td><td>🟡 Yellow</td><td>↓</td><td>5/5 tumble failure on Corian; DVT wall thinner than tested units</td></tr>
+      <tr><td>Software / Firmware</td><td>🟡 Yellow</td><td>→</td><td>Alpha release due 2/18; alpha testing in progress; TTW regression ongoing</td></tr>
+      <tr><td>Manufacturing / Ops</td><td>🟡 Yellow</td><td>→</td><td>ATE dry run slot-specific fixture failures; FTN gaps expected to close pre-DVT</td></tr>
+      <tr><td>Quality / REL</td><td>🔴 Red</td><td>↓</td><td>5/5 tumble FAIL on Corian; RISK-010 re-scored from 6 to 12</td></tr>
+      <tr><td>Regulatory / Cert</td><td>🟡 Yellow</td><td>→</td><td>ESD root cause due 2/17; US/Vegas NOT blocked; EU delayed May–June</td></tr>
+      <tr><td>Supply Chain</td><td>🟢 Green</td><td>→</td><td>All components secured; CNC chassis 5,150 units ordered; no expedites</td></tr>
+    </tbody></table></div></div>
+    <div class="two-col">
+      <div class="report-section"><div class="report-section-title">Key Accomplishments</div>
+        <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>DVT dry run ATE session executed (2/19)</strong> — First ATE station validation at Wistron Malaysia; 4 issue classes identified</div></div>
+        <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>NFC characterization strategy aligned (2/17)</strong> — Megan delivering W3 vs W1 comparison by 2/21 for BRR</div></div>
+        <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>DVT build allocation published</strong> — 1,482 units, 7 configs, all DRI allocations confirmed</div></div>
+        <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>Alpha testing launched (2/17)</strong> — Touch UI validation; 6-day window to BRR decision</div></div>
+      </div>
+      <div class="report-section"><div class="report-section-title">Escalations</div>
+        <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA ownership unassigned</strong> — 5/5 Corian failures need named FA owner before BRR Monday</div></div>
+        <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>FLASH_MAIN_MCU_SWD unresolved</strong> — Slot 1 J-Link failure must resolve before DVT FAI 3/4</div></div>
+      </div>
+    </div>
+    <div class="source-note">📄 Sources: 2026-02-20-W3-NPI-Weekly · DVT-Readiness-Assessment-2026-02-17 · 2026-02-19-W3-DVT-Dry-Run-ATE-Debug</div>`
+  },
+  mil: {
+    cmd: '/hub:master-mil', cmdClass: 'modal-cmd-red',
+    title: 'Master Manufacturing Issue Log — All Builds',
+    meta: 'Generated Feb 4, 2026 · Builds: EVT + PDVT · 77 total issues tracked · Sources: master-mil.csv',
+    html: `<div class="metric-row">
+      <div class="metric-card"><div class="metric-val">77</div><div class="metric-lbl">Total Issues<br>EVT + PDVT</div></div>
+      <div class="metric-card"><div class="metric-val red">12</div><div class="metric-lbl">Active<br>(Watching)</div></div>
+      <div class="metric-card"><div class="metric-val green">65</div><div class="metric-lbl">Resolved</div></div>
+      <div class="metric-card"><div class="metric-val green">0</div><div class="metric-lbl">Cross-Build<br>Recurring</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title">Active Issues — Watching (DVT Mitigations Required)</div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Sev</th><th>Title</th><th>Build</th><th>Status</th></tr></thead><tbody>
+      <tr><td>MIL-044</td><td><span class="sev-p0">P0</span></td><td>NFC High FATP Test Station Retest Rates</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-041</td><td><span class="sev-p0">P0</span></td><td>NFC Flex Pinch</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-030</td><td><span class="sev-p0">P0</span></td><td>System Weight Too Low (20g deficit)</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-032</td><td><span class="sev-p1">P1</span></td><td>Run-In Instability</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-P012</td><td><span class="sev-p1">P1</span></td><td>C57 Interference with Display Flex Stiffener</td><td>PDVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-042</td><td><span class="sev-p1">P1</span></td><td>NFC Elevated FR @ Fingerprint Sensor Station</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-067</td><td><span class="sev-p1">P1</span></td><td>USB-C Gasket Detaching During Assembly</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+      <tr><td>MIL-008</td><td><span class="sev-p1">P1</span></td><td>FPS Flex Shift</td><td>EVT</td><td><span class="badge-watch">Watching</span></td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title">Resolution by Build</div>
+    <div class="table-wrap"><table><thead><tr><th>Build</th><th>Total</th><th>Resolved</th><th>Watching</th><th>Rate</th></tr></thead><tbody>
+      <tr><td>EVT</td><td>65</td><td>54</td><td>11</td><td>🟡 83%</td></tr>
+      <tr><td>PDVT</td><td>12</td><td>11</td><td>1</td><td>🟢 100% at exit</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>77</strong></td><td><strong>65</strong></td><td><strong>12</strong></td><td><strong>84%</strong></td></tr>
+    </tbody></table></div></div>
+    <div class="source-note">📄 Sources: master-mil.csv · EVT-Manufacturing-Issue-Log · PDVT-Manufacturing-Issue-Log</div>`
+  },
+  compare: {
+    cmd: '/hub:compare', cmdClass: 'modal-cmd-red',
+    title: 'Build-over-Build Quality Analysis — EVT → PDVT',
+    meta: 'Generated Feb 20, 2026 · W3 Hardware Wallet · Sources: EVT-Build-Summary, PDVT-Build-Summary, master-mil.csv',
+    html: `<div class="report-section"><div class="report-section-title">Yield Delta — EVT to PDVT</div>
+    <div class="metric-row">
+      <div class="metric-card"><div class="metric-val red">-0.81pp</div><div class="metric-lbl">SMT Yield<br>99.26% → 98.45%</div></div>
+      <div class="metric-card"><div class="metric-val green">+14.8pp</div><div class="metric-lbl">FATP Yield<br>76.13% → 90.93%</div></div>
+      <div class="metric-card"><div class="metric-val green">+40pp</div><div class="metric-lbl">MIL Resolution<br>60% → 100%</div></div>
+      <div class="metric-card"><div class="metric-val green">-6</div><div class="metric-lbl">Critical Issues<br>at Build Exit</div></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title">Issue Classification</div>
+    <div class="table-wrap"><table><thead><tr><th>Classification</th><th>Count</th><th>Notes</th></tr></thead><tbody>
+      <tr><td>🔴 NEW (PDVT-only)</td><td>12</td><td>New issues surfaced in PDVT; 11/12 resolved at exit</td></tr>
+      <tr><td>✅ RESOLVED (EVT→PDVT)</td><td>54</td><td>EVT issues confirmed closed; not carried forward</td></tr>
+      <tr><td>🟡 CARRIED FORWARD</td><td>12</td><td>EVT watching items with DVT mitigations planned</td></tr>
+      <tr><td>🔁 RECURRING</td><td>0</td><td>No issues reappeared identically across builds</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title">Key FATP +14.8pp Quality Drivers</div>
+      <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>Buttons eliminated (DMR1)</strong> — Removed #1 FATP yield driver from EVT</div></div>
+      <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>NFC antenna tuning (BOM locked 1/17)</strong> — Resolved MIL-044 elevated retest rates</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT 7.5x scale-up risk</strong> — 140 → ~1,050 FATP units; yield risk at scale</div></div>
+    </div>
+    <div class="source-note">📄 Sources: EVT-Build-Summary · PDVT-Build-Summary · master-mil.csv · DVT-Readiness-Assessment-2026-02-17</div>`
+  },
+  briefing: {
+    cmd: '/hub:briefing', cmdClass: 'modal-cmd-red',
+    title: 'Weekly Prep Briefing — Week of Feb 23, 2026',
+    meta: 'Prepared for Justin Heckman · Feb 22, 2026 · Sources: 2026-02-23-Weekly-Prep-Briefing, DVT-Readiness-Assessment',
+    html: `<div class="report-section"><div class="report-section-title">Top Priorities This Week</div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>BRR — Lock Final DVT GO (Mon 2/23)</strong> — Three binding decisions today: NFC path, Touch UX, ESD plan. Key ambiguity: does tumble FA have a named owner before the meeting?</div></div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA — Establish Ownership (Mon–Wed)</strong> — 5/5 Corian chip-off at 0.5m, earliest cycle 20. DVT wall is thinner. Escalate to Nick George and Israel today. March 14 housing GO/NO-GO is 19 days away.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT Dry Run Close-Out (Mon–Fri)</strong> — FLASH_MAIN_MCU_SWD and USB CC2 both unresolved. FTN COF mode must land before DVT Day 1. 10 days to FAI.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>ESD Multi-Unit Validation — Set Up for 2/28</strong> — Single-unit bench clean. Scale to 3–5 units by end of week. Joe Laucks and Yuchan own execution.</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title">Delegated Items to Check</div>
+    <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Item</th><th>Check When</th></tr></thead><tbody>
+      <tr><td>Nick George / Israel</td><td>Tumble FA ownership confirmed; chip-off locations documented</td><td>Monday BRR, then daily</td></tr>
+      <tr><td>Max Guise / Ben McGee</td><td>Alpha testing results — task completion %, frustration %</td><td>Monday BRR</td></tr>
+      <tr><td>Joe Laucks / Yuchan</td><td>ESD multi-unit validation (3–5 units) on track for 2/28</td><td>Wednesday, 2/28 close</td></tr>
+      <tr><td>Zach Stanziano / Ryan Taylor</td><td>ATE dry run — slot issues resolved before 3/4</td><td>Daily through 3/4</td></tr>
+      <tr><td>Bamboo / Susan Sun</td><td>DVT FAI material readiness for March 4</td><td>By Wed 2/25</td></tr>
+    </tbody></table></div></div>
+    <div class="source-note">📄 Sources: 2026-02-23-Weekly-Prep-Briefing · DVT-Readiness-Assessment-2026-02-17 · RISK-010, RISK-013, RISK-007</div>`
+  },
+  agenda: {
+    cmd: '/hub:agenda', cmdClass: 'modal-cmd-red',
+    title: 'W3 Core Team Agenda — Feb 17, 2026',
+    meta: 'Auto-generated from vault · BRR sprint · 15 days to DVT FAI · Sources: 2026-02-17-W3-Core-Team-Agenda',
+    html: `<div class="status-banner"><span class="status-pill yellow">🟡 BRR SPRINT</span><span class="status-text"><strong>Program enters final sprint to BRR Gate (Feb 23).</strong> Three critical decisions converging: NFC optimization (results 2/19), Touch UX (alpha starts today), ESD mitigation (root cause due today).</span></div>
+    <div class="report-section"><div class="report-section-title">Decisions Required at BRR — Feb 23</div>
+      <div class="decision-card"><div class="decision-q">1. NFC Performance Optimization Path</div><div class="decision-meta">Options: Current NFC + fast-follow (1) · 2–3 DVT variants (2) · DVT delay (3) · Owner: Michael Lamfalusi, Joe Laucks, Justin Heckman</div></div>
+      <div class="decision-card"><div class="decision-q">2. Touch UX Acceptability for Vegas Launch</div><div class="decision-meta">Alpha testing today–Feb 23 · Options: GO / Marginal with mitigations / Delay · Owner: Max Guise, Ben McGee, Chase Cooper</div></div>
+      <div class="decision-card"><div class="decision-q">3. ESD Mitigation Plan — DVT GO for US/Canada</div><div class="decision-meta">Root cause due today · BOM vs PCB changes · EU May–June post-fix + 6-week re-cert · Owner: Joe Laucks, Israel</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title">Open Action Items</div>
+    <div class="table-wrap"><table><thead><tr><th>Action</th><th>Owner</th><th>Due</th></tr></thead><tbody>
+      <tr><td>Ahmad NFC optimization results</td><td>Emad Bidari, Joe Laucks</td><td>Feb 19</td></tr>
+      <tr><td>Alpha software release</td><td>Chris Rieger, Ben McGee</td><td>Feb 18</td></tr>
+      <tr><td>ESD root cause investigation</td><td>Joe Laucks, Israel</td><td>Feb 17 (today)</td></tr>
+      <tr><td>Heavy housing buck validation checkpoint</td><td>Israel, Nick George</td><td>Feb 15 (overdue)</td></tr>
+      <tr><td>Pre-BRR status sync</td><td>Justin Heckman (EPM)</td><td>Feb 21</td></tr>
+    </tbody></table></div></div>
+    <div class="source-note">📄 Sources: 2026-02-17-W3-Core-Team-Agenda · DMR2 outcomes · RISK-013 · RISK-003</div>`
+  },
+  sync: {
+    cmd: '/hub:sync', cmdClass: 'modal-cmd-blue',
+    title: 'Google Drive Sync — Net New Knowledge Report',
+    meta: 'Executed Feb 22, 2026 · Via MCP Google Drive connector · W3 Hardware Wallet vault',
+    html: `<div class="mcp-callout">
+      <div>
+        <div class="mcp-callout-label">⚡ MCP — Model Context Protocol</div>
+        <div class="mcp-callout-text">Claude Code connects directly to Google Drive via MCP — no manual export, no copy-paste. Documents are pulled live, converted to structured markdown, tagged with metadata, and linked back into the vault knowledge graph automatically. The sync also generates a <strong>Net New Knowledge summary</strong> of what changed since the last run.</div>
+      </div>
+    </div>
+    <div class="report-section"><div class="report-section-title blue">Sync Summary — Feb 22, 2026</div>
+    <div class="health-stat-row">
+      <div class="metric-card"><div class="metric-val blue">6</div><div class="metric-lbl">Documents<br>Pulled</div></div>
+      <div class="metric-card"><div class="metric-val green">4</div><div class="metric-lbl">New to<br>Vault</div></div>
+      <div class="metric-card"><div class="metric-val yellow">2</div><div class="metric-lbl">Updated<br>Since Last Sync</div></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Files Synced</div>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <div class="sync-file-row"><span class="sync-filename">2026-02-20-W3-ESD-Mitigation-Sync.md</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">DVT-BRR-Build-Readiness-Risk-Table.md</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis.md</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">2026-02-19-W3-NFC-Volume-Characterization-1-Pager.md</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">DVT-Readiness-Assessment-2026-02-17.md</span><span class="sync-badge-upd">UPDATED</span></div>
+      <div class="sync-file-row"><span class="sync-filename">RISK-013-W3-ESD-GTM-Launch-Impact.md</span><span class="sync-badge-upd">UPDATED</span></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Net New Knowledge</div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>ESD root cause confirmed (2/19)</strong> — Soldermask pullback + DNP U2; no PCB spin required. First time this appears in vault. RISK-013 updated accordingly.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>Tumble failure analysis added</strong> — 5/5 Corian chip-off at 0.5m; DVT wall implications; FA ownership TBD. Backlinked to RISK-010 and DVT-Readiness-Assessment.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>NFC volume characterization data</strong> — W3 vs W1 bench comparison (Megan). Linked to BRR NFC decision framework doc.</div></div>
+    </div>
+    <div class="source-note">📄 Synced from: W3 Program Shared Drive (Google Drive) · Connected via MCP Google Drive connector · Auto-tagged and cross-linked on import</div>`
+  },
+  currency: {
+    cmd: '/hub:doc-currency', cmdClass: 'modal-cmd-blue',
+    title: 'Documentation Currency Check',
+    meta: 'Run Feb 22, 2026 · Full vault audit · W3 Hardware Wallet',
+    html: `<div class="health-stat-row">
+      <div class="metric-card"><div class="metric-val blue">47</div><div class="metric-lbl">Docs Audited</div></div>
+      <div class="metric-card"><div class="metric-val green">38</div><div class="metric-lbl">Current</div></div>
+      <div class="metric-card"><div class="metric-val red">9</div><div class="metric-lbl">Flagged</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title blue">Stale Documents — Not Updated in 30+ Days While Linked Docs Changed</div>
+    <div class="table-wrap"><table><thead><tr><th>Document</th><th>Last Updated</th><th>Issue</th></tr></thead><tbody>
+      <tr><td>DVT-Readiness-Dashboard</td><td>Jan 29, 2026</td><td><span class="sync-badge-stale">STALE</span> — Readiness assessment updated 3x since; dashboard not reconciled</td></tr>
+      <tr><td>RISK-010-W3-System-Weight-Drop-Performance</td><td>Feb 12, 2026</td><td><span class="sync-badge-stale">STALE</span> — Score re-escalated 2/19; risk doc not yet updated</td></tr>
+      <tr><td>W3-Hardware-Wallet (hub)</td><td>Feb 9, 2026</td><td><span class="sync-badge-stale">STALE</span> — 8 linked docs updated since; hub summary is 13 days behind</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title blue">Missing Bidirectional Links (5 flagged)</div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>2026-02-20-W3-ESD-Mitigation-Sync</strong> → references RISK-013 but RISK-013 does not backlink to this doc</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis</strong> → references DVT-Readiness-Assessment but no backlink exists yet</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT-Build-Allocation-Analysis</strong> → not linked from W3 hub or any weekly report</div></div>
+    </div>
+    <div class="source-note">📄 Full vault audit · 47 documents checked · Stale threshold: 30 days with linked-doc changes · Run: Feb 22, 2026</div>`
+  },
+  slack: {
+    cmd: '/hub:slack-sync', cmdClass: 'modal-cmd-blue',
+    title: 'Slack Sync — Glean MCP · Alpha',
+    meta: 'Alpha · Executed Feb 22, 2026 · Via Glean MCP connector · Channels: #w3-hardware-builds, #w3-touch-enablement, #w3-compliance, #w3-esd-investigation',
+    html: `<div class="mcp-callout">
+      <div>
+        <div class="mcp-callout-label">⚡ Glean MCP — Alpha Testing</div>
+        <div class="mcp-callout-text">Claude Code connects to Slack via the Glean MCP connector — scanning program channels for decisions, escalations, and context that never make it into formal documents. Threads are converted to structured vault notes, tagged by topic, and linked back into the knowledge graph. <strong>Captures the informal record that formal docs miss.</strong></div>
+      </div>
+    </div>
+    <div class="report-section"><div class="report-section-title blue">Sync Summary — Feb 22, 2026</div>
+    <div class="health-stat-row">
+      <div class="metric-card"><div class="metric-val blue">4</div><div class="metric-lbl">Channels<br>Scanned</div></div>
+      <div class="metric-card"><div class="metric-val green">11</div><div class="metric-lbl">Threads<br>Captured</div></div>
+      <div class="metric-card"><div class="metric-val yellow">3</div><div class="metric-lbl">Informal Decisions<br>Surfaced</div></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Threads Captured — Net New Context</div>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
+      <div class="sync-file-row"><span class="sync-filename">#w3-esd-investigation · Feb 19 · Joe Laucks + Israel</span><span class="sync-badge-new">DECISION</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-hardware-builds · Feb 20 · Tumble FA ownership thread</span><span class="sync-badge-stale">ESCALATION</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-hardware-builds · Feb 19 · ATE dry run debug log (Zach)</span><span class="sync-badge-new">NEW</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-touch-enablement · Feb 18 · Alpha firmware delivery confirmed</span><span class="sync-badge-upd">UPDATED</span></div>
+      <div class="sync-file-row"><span class="sync-filename">#w3-compliance · Feb 17 · EU cert restart trigger clarification</span><span class="sync-badge-new">NEW</span></div>
+    </div></div>
+    <div class="report-section"><div class="report-section-title blue">Informal Decisions Surfaced</div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-esd-investigation (Feb 19)</strong> — Joe Laucks confirmed DNP U2 + soldermask fix validated on bench. Decision made in thread before formal doc written. Now linked to RISK-013 and DVT-Readiness-Assessment.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-hardware-builds (Feb 20)</strong> — Nick George acknowledged tumble FA ownership in thread. Not yet in any formal doc. Captured and linked to RISK-010.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-compliance (Feb 17)</strong> — Simon Ma clarified EU cert restart trigger is "DVT ESD multi-unit validation complete." Captured as decision note; linked to RISK-013 and weekly prep briefing.</div></div>
+    </div>
+    <div class="source-note">📄 Synced from: #w3-hardware-builds · #w3-touch-enablement · #w3-compliance · #w3-esd-investigation · Via Glean MCP · Alpha — fundamentals operational</div>`
+  },
+  crosslink: {
+    cmd: '/hub:cross-link', cmdClass: 'modal-cmd-blue',
+    title: 'Cross-Document Linker',
+    meta: 'Run Feb 22, 2026 · W3 Hardware Wallet vault · Bidirectional wiki-link scan',
+    html: `<div class="health-stat-row">
+      <div class="metric-card"><div class="metric-val blue">23</div><div class="metric-lbl">New Links<br>Added</div></div>
+      <div class="metric-card"><div class="metric-val blue">14</div><div class="metric-lbl">Doc Pairs<br>Linked</div></div>
+      <div class="metric-card"><div class="metric-val green">+18%</div><div class="metric-lbl">Graph Density<br>Improvement</div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title blue">High-Value Links Added This Run</div>
+    <div class="table-wrap"><table><thead><tr><th>From</th><th>To</th><th>Relationship</th></tr></thead><tbody>
+      <tr><td>2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis</td><td>RISK-010-W3-System-Weight-Drop-Performance</td><td>Tumble failure evidence → risk record</td></tr>
+      <tr><td>2026-02-20-W3-ESD-Mitigation-Sync</td><td>RISK-013-W3-ESD-GTM-Launch-Impact</td><td>Root cause confirmation → risk record</td></tr>
+      <tr><td>DVT-Readiness-Assessment-2026-02-17</td><td>2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis</td><td>Readiness condition 4 → supporting evidence</td></tr>
+      <tr><td>2026-02-23-W3-NFC-Performance-Launch-Readiness</td><td>2026-02-19-W3-NFC-Volume-Characterization-1-Pager</td><td>Decision framework → supporting data</td></tr>
+      <tr><td>Master-MIL</td><td>DVT-Readiness-Assessment-2026-02-17</td><td>MIL carry-forward items → gate readiness</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title blue">Why This Matters</div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>AI retrieval quality improves</strong> — Claude Code follows wiki-links when answering questions. More links = more context surfaced per query, fewer gaps in synthesis.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>Cross-build memory stays intact</strong> — EVT decisions linked to DVT assessments means EVT learnings surface automatically when querying DVT topics.</div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>No documentation islands</strong> — Every new sync doc is immediately woven into the graph; nothing gets orphaned after import.</div></div>
+    </div>
+    <div class="source-note">📄 Bidirectional link scan · 47 documents · W3 Hardware Wallet vault · Run: Feb 22, 2026</div>`
+  }
+};
+
+function openModal(key) {
+  const r = reports[key];
+  const cmdEl = document.getElementById('modalCmd');
+  cmdEl.textContent = r.cmd;
+  cmdEl.className = r.cmdClass;
+  document.getElementById('modalTitle').textContent = r.title;
+  document.getElementById('modalMeta').textContent = r.meta;
+  document.getElementById('modalBody').innerHTML = r.html;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
