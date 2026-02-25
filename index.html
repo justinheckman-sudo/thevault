@@ -51,16 +51,16 @@
   .cmd-hint { font-size: 10px; color: #dc2626; margin-top: auto; padding-top: 5px; opacity: 0; transition: opacity .15s; }
   .cmd-card:hover .cmd-hint { opacity: 1; }
 
-  /* Conversational use cards */
+  /* Use cards */
   .use-cases { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .use-card { background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid #dc2626; border-radius: 0 7px 7px 0; padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start; flex: 1; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; position: relative; }
+  .use-card { background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid #dc2626; border-radius: 0 7px 7px 0; padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start; flex: 1; cursor: pointer; transition: box-shadow .15s, transform .1s; position: relative; }
   .use-card:hover { box-shadow: 0 2px 10px rgba(220,38,38,.1); transform: translateX(2px); }
   .use-title { font-size: 11px; font-weight: 700; color: #111827; white-space: nowrap; min-width: 140px; flex-shrink: 0; }
   .use-desc { font-size: 10px; color: #6b7280; line-height: 1.45; }
   .use-hint { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #dc2626; opacity: 0; transition: opacity .15s; }
   .use-card:hover .use-hint { opacity: 1; }
 
-  /* Vault health cards */
+  /* Health cards */
   .health-cards { display: flex; flex-direction: column; gap: 6px; flex: 1; }
   .health-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 7px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .1s; }
   .health-card:hover { border-color: #2563eb; box-shadow: 0 2px 10px rgba(37,99,235,.1); transform: translateY(-1px); }
@@ -70,7 +70,12 @@
   .health-cmd { font-family: 'Consolas','Courier New',monospace; font-size: 10px; font-weight: 700; color: #2563eb; background: #dbeafe; padding: 2px 6px; border-radius: 3px; white-space: nowrap; transition: background .15s, color .15s; }
   .health-card:hover .health-cmd { background: #2563eb; color: #fff; }
   .health-card.featured .health-cmd { background: #2563eb; color: #fff; }
+  .health-card.github { border-color: #d1d5db; background: #f9fafb; }
+  .health-card.github:hover { border-color: #374151; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  .health-card.github .health-cmd { color: #374151; background: #e5e7eb; }
+  .health-card.github:hover .health-cmd { background: #111827; color: #fff; }
   .mcp-badge { font-size: 9px; font-weight: 700; color: #059669; background: #d1fae5; border: 1px solid #6ee7b7; padding: 1px 6px; border-radius: 3px; white-space: nowrap; letter-spacing: .04em; }
+  .gh-badge { font-size: 9px; font-weight: 700; color: #374151; background: #e5e7eb; border: 1px solid #d1d5db; padding: 1px 6px; border-radius: 3px; white-space: nowrap; letter-spacing: .04em; }
   .health-name { font-size: 11px; font-weight: 700; color: #111827; }
   .health-desc { font-size: 10px; color: #6b7280; line-height: 1.4; }
   .health-hint { font-size: 10px; color: #2563eb; margin-top: auto; padding-top: 4px; opacity: 0; transition: opacity .15s; }
@@ -85,21 +90,21 @@
   .modal-title-wrap { display: flex; align-items: center; gap: 10px; }
   .modal-cmd-red { font-family: 'Consolas',monospace; font-size: 12px; font-weight: 700; color: #dc2626; background: #fef2f2; padding: 3px 9px; border-radius: 4px; }
   .modal-cmd-blue { font-family: 'Consolas',monospace; font-size: 12px; font-weight: 700; color: #2563eb; background: #dbeafe; padding: 3px 9px; border-radius: 4px; }
+  .modal-cmd-dark { font-family: 'Consolas',monospace; font-size: 12px; font-weight: 700; color: #111827; background: #e5e7eb; padding: 3px 9px; border-radius: 4px; }
   .modal-title { font-size: 14px; font-weight: 700; color: #111827; }
   .modal-meta { font-size: 11px; color: #9ca3af; margin-top: 2px; }
-  .modal-close { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #e5e7eb; background: #f9fafb; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #6b7280; transition: background .1s; flex-shrink: 0; }
-  .modal-close:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+  .modal-close { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #e5e7eb; background: #f9fafb; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #6b7280; flex-shrink: 0; }
+  .modal-close:hover { background: #fee2e2; color: #dc2626; }
   .modal-body { flex: 1; overflow-y: auto; padding: 20px; }
   .modal-body::-webkit-scrollbar { width: 5px; }
-  .modal-body::-webkit-scrollbar-track { background: #f3f4f6; }
   .modal-body::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
 
-  /* CHAT UI */
+  /* CHAT */
   .chat-wrap { display: flex; flex-direction: column; gap: 12px; }
   .chat-row-user { display: flex; justify-content: flex-end; }
   .chat-row-ai { display: flex; justify-content: flex-start; }
   .chat-bubble-user { background: #111827; color: #f9fafb; border-radius: 18px 18px 4px 18px; padding: 12px 16px; max-width: 80%; font-size: 13px; line-height: 1.6; }
-  .chat-bubble-ai { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 4px 18px 18px 18px; padding: 14px 16px; max-width: 92%; font-size: 12px; line-height: 1.75; color: #374151; }
+  .chat-bubble-ai { background: #fff; border: 1px solid #e5e7eb; border-radius: 4px 18px 18px 18px; padding: 14px 16px; max-width: 92%; font-size: 12px; line-height: 1.75; color: #374151; }
   .chat-bubble-ai .ai-label { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #dc2626; display: block; margin-bottom: 8px; }
   .chat-bubble-ai strong { color: #111827; }
   .chat-bubble-ai em { color: #6b7280; }
@@ -107,16 +112,16 @@
   .chat-context-label { font-size: 9px; font-weight: 700; color: #9ca3af; letter-spacing: .1em; text-transform: uppercase; width: 100%; margin-bottom: 2px; }
   .chat-context-pill { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 10px; color: #6b7280; padding: 2px 8px; font-family: 'Consolas', monospace; }
 
-  /* REPORT STYLES (non-chat modals) */
+  /* REPORT STYLES */
   .report-section { margin-bottom: 16px; }
   .report-section-title { font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: #dc2626; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #fee2e2; }
   .report-section-title.blue { color: #2563eb; border-bottom-color: #bfdbfe; }
+  .report-section-title.dark { color: #374151; border-bottom-color: #e5e7eb; }
   .status-banner { display: flex; align-items: center; gap: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; }
   .status-banner.blue { background: #eff6ff; border-color: #bfdbfe; }
   .status-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
   .status-pill.yellow { background: #fef3c7; color: #b45309; }
   .status-pill.blue { background: #dbeafe; color: #1d4ed8; }
-  .status-text { font-size: 12px; color: #374151; line-height: 1.5; }
   .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
   .metric-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; text-align: center; }
   .metric-val { font-size: 22px; font-weight: 800; color: #111827; line-height: 1; }
@@ -133,7 +138,7 @@
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .item-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 7px; font-size: 12px; }
   .item-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-  .item-dot.red { background: #dc2626; } .item-dot.yellow { background: #d97706; } .item-dot.green { background: #16a34a; } .item-dot.blue { background: #2563eb; }
+  .item-dot.red { background: #dc2626; } .item-dot.yellow { background: #d97706; } .item-dot.green { background: #16a34a; } .item-dot.blue { background: #2563eb; } .item-dot.gray { background: #9ca3af; }
   .item-text { color: #374151; line-height: 1.5; }
   .item-text strong { color: #111827; }
   .decision-card { background: #f9fafb; border: 1px solid #e5e7eb; border-left: 3px solid #dc2626; border-radius: 0 6px 6px 0; padding: 9px 12px; margin-bottom: 7px; }
@@ -150,6 +155,12 @@
   .mcp-callout { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 11px 14px; margin-bottom: 14px; }
   .mcp-callout-label { font-size: 10px; font-weight: 700; color: #059669; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
   .mcp-callout-text { font-size: 11px; color: #374151; line-height: 1.55; }
+  .gh-callout { background: #f9fafb; border: 1px solid #d1d5db; border-radius: 8px; padding: 11px 14px; margin-bottom: 14px; }
+  .gh-callout-label { font-size: 10px; font-weight: 700; color: #374151; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+  .gh-callout-text { font-size: 11px; color: #374151; line-height: 1.55; }
+  .highlight-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .highlight-box-title { font-size: 11px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .highlight-box-desc { font-size: 11px; color: #6b7280; line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -196,7 +207,7 @@
 
   <!-- BOTTOM -->
   <div class="bottom">
-    <!-- COL 1: Automated Commands -->
+    <!-- COL 1 -->
     <div class="col col-left">
       <div class="sub-label">Automated Commands — click to preview</div>
       <div class="cmd-grid">
@@ -209,7 +220,7 @@
       </div>
     </div>
 
-    <!-- COL 2: Vault Health -->
+    <!-- COL 2 -->
     <div class="col col-mid">
       <div class="sub-label">Vault Health &amp; Knowledge — click to preview</div>
       <div class="health-cards">
@@ -220,9 +231,9 @@
           <div class="health-hint">↗ Preview</div>
         </div>
         <div class="health-card featured" onclick="openModal('slack')">
-          <div class="health-card-top"><span class="health-cmd">/hub:slack-sync</span><span class="mcp-badge">⚡ Glean MCP · Alpha</span></div>
-          <div class="health-name">Slack Sync</div>
-          <div class="health-desc">Pulls program-relevant Slack threads via Glean MCP — decisions and context captured from #w3-hardware-builds and more.</div>
+          <div class="health-card-top"><span class="health-cmd">/hub:slack-roundup</span><span class="mcp-badge">⚡ Glean MCP · Alpha</span></div>
+          <div class="health-name">Slack Roundup</div>
+          <div class="health-desc">Daily digest of program Slack activity via Glean MCP — surfaces decisions, blockers, and context across W3 channels.</div>
           <div class="health-hint">↗ Preview</div>
         </div>
         <div class="health-card" onclick="openModal('currency')">
@@ -231,16 +242,16 @@
           <div class="health-desc">Full vault health audit — flags stale docs, missing bidirectional links, and broken backlink coverage.</div>
           <div class="health-hint">↗ Preview</div>
         </div>
-        <div class="health-card" onclick="openModal('crosslink')">
-          <div class="health-card-top"><span class="health-cmd">/hub:cross-link</span></div>
-          <div class="health-name">Cross-Document Linker</div>
-          <div class="health-desc">Scans vault for related documents and adds bidirectional wiki-links — improves AI retrieval quality across builds.</div>
+        <div class="health-card github" onclick="openModal('github')">
+          <div class="health-card-top"><span class="health-cmd">git</span><span class="gh-badge">⎇ Version Control</span></div>
+          <div class="health-name">GitHub — Org-Wide Scaling</div>
+          <div class="health-desc">Vault lives in git — full history, branching, and the path to sharing knowledge across every NPI program in the org.</div>
           <div class="health-hint">↗ Preview</div>
         </div>
       </div>
     </div>
 
-    <!-- COL 3: Conversational Intelligence -->
+    <!-- COL 3 -->
     <div class="col col-right">
       <div class="sub-label">Conversational Intelligence — Five Core Skills</div>
       <div class="use-cases">
@@ -258,10 +269,7 @@
     <div class="modal">
       <div class="modal-header">
         <div>
-          <div class="modal-title-wrap">
-            <span id="modalCmd"></span>
-            <span class="modal-title" id="modalTitle"></span>
-          </div>
+          <div class="modal-title-wrap"><span id="modalCmd"></span><span class="modal-title" id="modalTitle"></span></div>
           <div class="modal-meta" id="modalMeta"></div>
         </div>
         <button class="modal-close" onclick="closeModal()">✕</button>
@@ -276,20 +284,20 @@ const chatModal = (prompt, response, sources) => `
   <div class="chat-wrap">
     <div class="chat-row-user"><div class="chat-bubble-user">${prompt}</div></div>
     <div class="chat-row-ai"><div class="chat-bubble-ai">
-      <span class="ai-label">The Vault</span>
-      ${response}
+      <span class="ai-label">The Vault</span>${response}
     </div></div>
     <div class="chat-context">
       <div class="chat-context-label">Vault sources</div>
-      ${sources.map(s => `<div class="chat-context-pill">${s}</div>`).join('')}
+      ${sources.map(s=>`<div class="chat-context-pill">${s}</div>`).join('')}
     </div>
   </div>`;
 
 const reports = {
+
   readiness: {
-    cmd: '/hub:readiness', cmdClass: 'modal-cmd-red', title: 'DVT Build Readiness Assessment',
-    meta: 'Generated Feb 22, 2026 · W3 Hardware Wallet · Sources: DVT-Readiness-Assessment-2026-02-17, PDVT-Build-Summary, Master-MIL',
-    html: `<div class="status-banner"><span class="status-pill yellow">🟡 CONDITIONAL GO</span><span class="status-text"><strong>Confidence: 80%</strong> — DVT start March 4, 2026. All 5 gate criteria met. BRR Feb 23 is final approval. Revised from 82% after 5/5 tumble failure on Corian housing (Feb 19).</span></div>
+    cmd:'/hub:readiness', cmdClass:'modal-cmd-red', title:'DVT Build Readiness Assessment',
+    meta:'Generated Feb 22, 2026 · W3 Hardware Wallet',
+    html:`<div class="status-banner"><span class="status-pill yellow">🟡 CONDITIONAL GO</span><span class="status-text"><strong>Confidence: 80%</strong> — DVT start March 4, 2026. All 5 gate criteria met. BRR Feb 23 is final approval. Revised from 82% after 5/5 tumble failure on Corian housing.</span></div>
     <div class="metric-row">
       <div class="metric-card"><div class="metric-val green">98.45%</div><div class="metric-lbl">PDVT SMT Yield<br>(target ≥95%)</div></div>
       <div class="metric-card"><div class="metric-val green">90.93%</div><div class="metric-lbl">PDVT FATP Yield<br>(target ≥85%)</div></div>
@@ -312,37 +320,54 @@ const reports = {
     </div>
     <div class="source-note">📄 DVT-Readiness-Assessment-2026-02-17 · PDVT-Build-Summary · master-mil.csv · RISK-010, RISK-013</div>`
   },
+
   weekly: {
-    cmd: '/hub:weekly-report', cmdClass: 'modal-cmd-red', title: 'NPI Weekly Executive Report — W08',
-    meta: 'Week ending Feb 20, 2026 · W3 Hardware Wallet',
-    html: `<div class="status-banner"><span class="status-pill yellow">🟡 Yellow</span><span class="status-text"><strong>Conditional GO — 82% confidence.</strong> BRR gate Monday Feb 23. Two new critical data points: 5/5 tumble failure on Corian, DVT dry run ATE slot failures.</span></div>
-    <div class="report-section"><div class="report-section-title">Program Status — Week-over-Week</div>
-    <div class="table-wrap"><table><thead><tr><th>Workstream</th><th>Status</th><th>WoW</th><th>Key Driver</th></tr></thead><tbody>
-      <tr><td>Hardware / Mechanical</td><td>🟡 Yellow</td><td>↓</td><td>5/5 tumble failure on Corian housing</td></tr>
-      <tr><td>Software / Firmware</td><td>🟡 Yellow</td><td>→</td><td>Alpha release due 2/18; TTW regression ongoing</td></tr>
-      <tr><td>Manufacturing / Ops</td><td>🟡 Yellow</td><td>→</td><td>ATE dry run slot-specific fixture failures</td></tr>
-      <tr><td>Quality / REL</td><td>🔴 Red</td><td>↓</td><td>5/5 tumble FAIL; RISK-010 re-scored to 12</td></tr>
-      <tr><td>Regulatory / Cert</td><td>🟡 Yellow</td><td>→</td><td>US/Vegas NOT blocked; EU delayed May–June</td></tr>
-      <tr><td>Supply Chain</td><td>🟢 Green</td><td>→</td><td>All components secured; no expedites</td></tr>
-    </tbody></table></div></div>
-    <div class="two-col">
-      <div><div class="report-section"><div class="report-section-title">Accomplishments</div>
-        <div class="item-row"><div class="item-dot green"></div><div class="item-text">DVT dry run ATE session executed (2/19)</div></div>
-        <div class="item-row"><div class="item-dot green"></div><div class="item-text">NFC characterization strategy aligned (2/17)</div></div>
-        <div class="item-row"><div class="item-dot green"></div><div class="item-text">DVT build allocation published — 1,482 units, 7 configs</div></div>
-        <div class="item-row"><div class="item-dot green"></div><div class="item-text">Alpha testing launched (2/17)</div></div>
-      </div></div>
-      <div><div class="report-section"><div class="report-section-title">Escalations</div>
-        <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA ownership unassigned</strong> — needs named owner before BRR Monday</div></div>
-        <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>FLASH_MAIN_MCU_SWD unresolved</strong> — must close before DVT FAI 3/4</div></div>
-      </div></div>
+    cmd:'/hub:weekly-report', cmdClass:'modal-cmd-red', title:'NPI Weekly Report — W08 · Feb 16–20, 2026',
+    meta:'W3 Hardware Wallet · Phase: Post-DMR2 / BRR Sprint / DVT Prep · Generated 2026-02-20',
+    html:`<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;margin-bottom:5px;">W3 Hardware Wallet · W08 · Post-DMR2 / BRR Sprint</div>
+        <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:6px;">TLDR</div>
+        <div style="font-size:12px;color:#374151;line-height:1.65;">BRR gate Monday Feb 23 is the final DVT approval. Two significant new data points this week: <strong>5/5 tumble failure on Corian housing</strong> (chip-off as early as cycle 20) and <strong>DVT dry run ATE slot-specific fixture failures</strong> that are unresolved. Both need clear ownership and resolution paths before Monday. Manufacturing foundation remains strong — PDVT SMT 98.45%, FATP 90.93%, 100% MIL resolution.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0;">
+        <div style="background:#fef3c7;color:#b45309;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap;">🟡 Overall: Yellow</div>
+        <div style="font-size:10px;color:#9ca3af;text-align:right;">12 days to DVT FAI<br>66 days to Vegas</div>
+      </div>
     </div>
-    <div class="source-note">📄 2026-02-20-W3-NPI-Weekly · DVT-Readiness-Assessment-2026-02-17</div>`
+    <div class="report-section"><div class="report-section-title">Hardware Program Highlights</div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Corian Housing Tumble Failure: 5/5 Units Fail at 0.5m</strong> — Phase 2 REL validation revealed 100% tumble failure rate with Corian chip-off as early as cycle 20. DVT heavy housing retains Corian with a <em>thinner</em> wall section, making this directly relevant. FA ownership needed before BRR Monday. <em>(Owner: Nick George / Israel — FA ownership TBD)</em></div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT Dry Run ATE Session Surfaces Issues</strong> — Feb 19 session at Wistron Malaysia identified: uncalibrated resistance test limits (5/5 MLB failures), slot-specific fixture failures (J-Link Slot 1, USB CC2 Slot 2), multi-slot messagebox bug, FTN software gaps. <code>FLASH_MAIN_MCU_SWD</code> unresolved at session end. <em>(Owner: Zach Stanziano, Ryan Taylor)</em></div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>NFC Characterization Strategy Defined</strong> — Megan completing W3 vs W1 volume comparison by Friday 2/21 for BRR directional data. W3 shows ~5% sensitivity decrease vs W1 — may not be significant given W1's 15% field failure rate. <em>(Owner: Megan, Joe Laucks, Justin Heckman)</em></div></div>
+      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>DVT Build Allocation Finalized: 1,482 units / 7 configs</strong> — FAI (20), Mini (30), mREL (36), M1-Debug (95), M2-Dev (228), M3-Prod (353), Vegas (720). Vegas config intentionally delayed until 700+ through FATP. <em>(Owner: Justin Heckman)</em></div></div>
+    </div>
+    <div class="report-section"><div class="report-section-title">Program Status — Week-over-Week</div>
+    <div class="table-wrap"><table><thead><tr><th>Workstream</th><th>Status</th><th>WoW</th><th>Notes</th></tr></thead><tbody>
+      <tr><td>Hardware / Mechanical</td><td>🟡 Yellow</td><td>↓</td><td>5/5 tumble failure; drop/ball drop results pending</td></tr>
+      <tr><td>Software / Firmware</td><td>🟡 Yellow</td><td>→</td><td>Alpha FW due 2/18; alpha testing in progress; TTW regression ongoing</td></tr>
+      <tr><td>Manufacturing / Ops</td><td>🟡 Yellow</td><td>→</td><td>ATE dry run issues surfaced; CNY skeleton crew</td></tr>
+      <tr><td>Quality / REL</td><td>🔴 Red</td><td>↓</td><td>5/5 tumble FAIL; RISK-010 may need re-scoring</td></tr>
+      <tr><td>Regulatory / Cert</td><td>🟡 Yellow</td><td>→</td><td>US/Vegas NOT blocked; EU delayed May–June</td></tr>
+      <tr><td>Supply Chain</td><td>🟢 Green</td><td>→</td><td>All components secured; CNC chassis 5,150 units ordered</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title">Active Risks</div>
+    <div class="table-wrap"><table><thead><tr><th>Risk</th><th>Score</th><th>WoW</th><th>Update</th></tr></thead><tbody>
+      <tr><td>RISK-013 ESD GTM Staggered Launch</td><td>🔴 16</td><td>NEW</td><td>Root cause due 2/17; US/Vegas NOT blocked; EU May–June</td></tr>
+      <tr><td>RISK-007 Zero-Iteration Hardware</td><td>🔴 15</td><td>→</td><td>Structural; PVT fast-follow 4/6 assumes no design changes</td></tr>
+      <tr><td>RISK-008 Software Day-1 Vegas</td><td>🟠 12</td><td>→</td><td>Alpha FW 2/18; 3-week internal beta March</td></tr>
+      <tr><td>RISK-010 Heavy Housing Drop</td><td>🟡 6*</td><td>↑</td><td>*Score likely needs upward revision after 5/5 tumble fail</td></tr>
+    </tbody></table></div></div>
+    <div class="report-section"><div class="report-section-title">Blockers Requiring Escalation</div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA Ownership (URGENT — before BRR Monday)</strong> — Escalate to Nick George, Israel, Miguel Harry. Deadline: before BRR 2/23.</div></div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>ATE Dry Run FLASH_MAIN_MCU_SWD</strong> — Slot 1 J-Link unresolved. Escalate to Zach Stanziano / SEE team. Deadline: before DVT FAI 3/4.</div></div>
+    </div>
+    <div class="source-note">📄 2026-02-20-W3-NPI-Weekly · DVT-Readiness-Assessment-2026-02-17 · 2026-02-19-W3-DVT-Dry-Run-ATE-Debug · RISK-010 · RISK-013</div>`
   },
+
   mil: {
-    cmd: '/hub:master-mil', cmdClass: 'modal-cmd-red', title: 'Master Manufacturing Issue Log — All Builds',
-    meta: 'Generated Feb 4, 2026 · Builds: EVT + PDVT · Sources: master-mil.csv',
-    html: `<div class="metric-row">
+    cmd:'/hub:master-mil', cmdClass:'modal-cmd-red', title:'Master Manufacturing Issue Log — All Builds',
+    meta:'Generated Feb 4, 2026 · Builds: EVT + PDVT · Sources: master-mil.csv',
+    html:`<div class="metric-row">
       <div class="metric-card"><div class="metric-val">77</div><div class="metric-lbl">Total Issues</div></div>
       <div class="metric-card"><div class="metric-val red">12</div><div class="metric-lbl">Active (Watching)</div></div>
       <div class="metric-card"><div class="metric-val green">65</div><div class="metric-lbl">Resolved</div></div>
@@ -364,10 +389,11 @@ const reports = {
     </tbody></table></div></div>
     <div class="source-note">📄 master-mil.csv · EVT-Manufacturing-Issue-Log · PDVT-Manufacturing-Issue-Log</div>`
   },
+
   compare: {
-    cmd: '/hub:compare', cmdClass: 'modal-cmd-red', title: 'Build-over-Build Quality Analysis — EVT → PDVT',
-    meta: 'Generated Feb 20, 2026 · W3 Hardware Wallet',
-    html: `<div class="metric-row">
+    cmd:'/hub:compare', cmdClass:'modal-cmd-red', title:'Build-over-Build Quality Analysis — EVT → PDVT',
+    meta:'Generated Feb 20, 2026 · W3 Hardware Wallet',
+    html:`<div class="metric-row">
       <div class="metric-card"><div class="metric-val red">-0.81pp</div><div class="metric-lbl">SMT Yield<br>99.26% → 98.45%</div></div>
       <div class="metric-card"><div class="metric-val green">+14.8pp</div><div class="metric-lbl">FATP Yield<br>76.13% → 90.93%</div></div>
       <div class="metric-card"><div class="metric-val green">+40pp</div><div class="metric-lbl">MIL Resolution<br>60% → 100%</div></div>
@@ -380,21 +406,17 @@ const reports = {
       <tr><td>🟡 CARRIED FORWARD</td><td>12</td><td>DVT mitigations planned for all</td></tr>
       <tr><td>🔁 RECURRING</td><td>0</td><td>No issues reappeared across builds</td></tr>
     </tbody></table></div></div>
-    <div class="report-section"><div class="report-section-title">FATP +14.8pp Quality Drivers</div>
-      <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>Buttons eliminated (DMR1)</strong> — Removed #1 FATP failure driver from EVT</div></div>
-      <div class="item-row"><div class="item-dot green"></div><div class="item-text"><strong>NFC antenna tuning (BOM locked 1/17)</strong> — Resolved MIL-044 elevated retest rates</div></div>
-      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT 7.5x scale-up risk</strong> — 140 → ~1,050 FATP units; yield risk at scale</div></div>
-    </div>
     <div class="source-note">📄 EVT-Build-Summary · PDVT-Build-Summary · master-mil.csv</div>`
   },
+
   briefing: {
-    cmd: '/hub:briefing', cmdClass: 'modal-cmd-red', title: 'Weekly Prep Briefing — Week of Feb 23, 2026',
-    meta: 'Prepared for Justin Heckman · Feb 22, 2026',
-    html: `<div class="report-section"><div class="report-section-title">Top Priorities</div>
-      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>BRR — Lock Final DVT GO (Mon 2/23)</strong> — Three binding decisions today: NFC path, Touch UX, ESD plan. Key ambiguity: does tumble FA have a named owner before the meeting?</div></div>
+    cmd:'/hub:briefing', cmdClass:'modal-cmd-red', title:'Weekly Prep Briefing — Week of Feb 23, 2026',
+    meta:'Prepared for Justin Heckman · Feb 22, 2026',
+    html:`<div class="report-section"><div class="report-section-title">Top Priorities</div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>BRR — Lock Final DVT GO (Mon 2/23)</strong> — Three binding decisions today. Key ambiguity: does tumble FA have a named owner before the meeting?</div></div>
       <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>Tumble FA — Establish Ownership (Mon–Wed)</strong> — 5/5 Corian chip-off, earliest cycle 20. DVT wall thinner. Escalate to Nick George and Israel today.</div></div>
-      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT Dry Run Close-Out (Mon–Fri)</strong> — FLASH_MAIN_MCU_SWD and USB CC2 unresolved. Must land before DVT Day 1. 10 days to FAI.</div></div>
-      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>ESD Multi-Unit Validation — Set Up for 2/28</strong> — Single unit clean. Scale to 3–5 units by end of week.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>DVT Dry Run Close-Out (Mon–Fri)</strong> — FLASH_MAIN_MCU_SWD and USB CC2 unresolved. Must land before DVT Day 1.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>ESD Multi-Unit Validation — Set Up for 2/28</strong> — Single unit clean. Scale to 3–5 units this week.</div></div>
     </div>
     <div class="report-section"><div class="report-section-title">Delegated Items</div>
     <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Item</th><th>Check When</th></tr></thead><tbody>
@@ -405,13 +427,14 @@ const reports = {
     </tbody></table></div></div>
     <div class="source-note">📄 2026-02-23-Weekly-Prep-Briefing · DVT-Readiness-Assessment-2026-02-17</div>`
   },
+
   agenda: {
-    cmd: '/hub:agenda', cmdClass: 'modal-cmd-red', title: 'W3 Core Team Agenda — Feb 17, 2026',
-    meta: 'Auto-generated from vault · BRR sprint · 15 days to DVT FAI',
-    html: `<div class="status-banner"><span class="status-pill yellow">🟡 BRR SPRINT</span><span class="status-text"><strong>Final sprint to BRR Gate (Feb 23).</strong> Three critical decisions converging: NFC optimization (results 2/19), Touch UX (alpha starts today), ESD mitigation (root cause due today).</span></div>
-    <div class="report-section"><div class="report-section-title">Decisions Required at BRR — Feb 23</div>
-      <div class="decision-card"><div class="decision-q">1. NFC Performance Optimization Path</div><div class="decision-meta">Current NFC + fast-follow (1) · 2–3 DVT variants (2) · DVT delay (3) · Owner: Michael Lamfalusi, Joe Laucks, Justin Heckman</div></div>
-      <div class="decision-card"><div class="decision-q">2. Touch UX Acceptability for Vegas Launch</div><div class="decision-meta">Alpha testing today–Feb 23 · GO / Marginal with mitigations / Delay · Owner: Max Guise, Ben McGee, Chase Cooper</div></div>
+    cmd:'/hub:agenda', cmdClass:'modal-cmd-red', title:'W3 Core Team Agenda — Feb 17, 2026',
+    meta:'Auto-generated from vault · BRR sprint · 15 days to DVT FAI',
+    html:`<div class="status-banner"><span class="status-pill yellow">🟡 BRR SPRINT</span><span class="status-text"><strong>Final sprint to BRR Gate (Feb 23).</strong> Three critical decisions converging: NFC optimization (results 2/19), Touch UX (alpha starts today), ESD mitigation (root cause due today).</span></div>
+    <div class="report-section"><div class="report-section-title">Decisions Required at BRR</div>
+      <div class="decision-card"><div class="decision-q">1. NFC Performance Optimization Path</div><div class="decision-meta">Current NFC + fast-follow · 2–3 DVT variants · DVT delay · Owner: Michael Lamfalusi, Joe Laucks, Justin Heckman</div></div>
+      <div class="decision-card"><div class="decision-q">2. Touch UX Acceptability for Vegas Launch</div><div class="decision-meta">Alpha testing today–Feb 23 · GO / Marginal / Delay · Owner: Max Guise, Ben McGee, Chase Cooper</div></div>
       <div class="decision-card"><div class="decision-q">3. ESD Mitigation Plan — DVT GO for US/Canada</div><div class="decision-meta">Root cause due today · BOM vs PCB changes · EU May–June post-fix + 6-week re-cert</div></div>
     </div>
     <div class="report-section"><div class="report-section-title">Open Action Items</div>
@@ -423,10 +446,11 @@ const reports = {
     </tbody></table></div></div>
     <div class="source-note">📄 2026-02-17-W3-Core-Team-Agenda · RISK-013 · RISK-003</div>`
   },
+
   sync: {
-    cmd: '/hub:sync', cmdClass: 'modal-cmd-blue', title: 'Google Drive Sync — Net New Knowledge',
-    meta: 'Executed Feb 22, 2026 · Via MCP Google Drive connector · W3 Hardware Wallet vault',
-    html: `<div class="mcp-callout"><div class="mcp-callout-label">⚡ MCP — Model Context Protocol</div><div class="mcp-callout-text">Claude Code connects directly to Google Drive via MCP — no manual export. Documents are pulled live, converted to structured markdown, and linked back into the vault knowledge graph. A <strong>Net New Knowledge summary</strong> captures what changed since the last run.</div></div>
+    cmd:'/hub:sync', cmdClass:'modal-cmd-blue', title:'Google Drive Sync — Net New Knowledge',
+    meta:'Executed Feb 22, 2026 · Via MCP Google Drive connector',
+    html:`<div class="mcp-callout"><div class="mcp-callout-label">⚡ MCP — Model Context Protocol</div><div class="mcp-callout-text">Claude Code connects directly to Google Drive via MCP — no manual export. Documents are pulled live, converted to structured markdown, and linked back into the vault knowledge graph. A <strong>Net New Knowledge summary</strong> captures what changed since the last run.</div></div>
     <div class="report-section"><div class="report-section-title blue">Sync Summary — Feb 22, 2026</div>
     <div class="health-stat-row">
       <div class="metric-card"><div class="metric-val blue">6</div><div class="metric-lbl">Documents Pulled</div></div>
@@ -444,120 +468,124 @@ const reports = {
     </div></div>
     <div class="source-note">📄 Synced from W3 Program Shared Drive · Via MCP Google Drive connector · Auto-tagged and cross-linked on import</div>`
   },
+
   slack: {
-    cmd: '/hub:slack-sync', cmdClass: 'modal-cmd-blue', title: 'Slack Sync — Glean MCP · Alpha',
-    meta: 'Alpha · Feb 22, 2026 · Channels: #w3-hardware-builds, #w3-touch-enablement, #w3-compliance, #w3-esd-investigation',
-    html: `<div class="mcp-callout"><div class="mcp-callout-label">⚡ Glean MCP — Alpha Testing</div><div class="mcp-callout-text">Claude Code connects to Slack via Glean MCP — scanning program channels for decisions, escalations, and context that never make it into formal documents. <strong>Captures the informal record that formal docs miss.</strong></div></div>
-    <div class="report-section"><div class="report-section-title blue">Sync Summary — Feb 22, 2026</div>
-    <div class="health-stat-row">
-      <div class="metric-card"><div class="metric-val blue">4</div><div class="metric-lbl">Channels Scanned</div></div>
-      <div class="metric-card"><div class="metric-val green">11</div><div class="metric-lbl">Threads Captured</div></div>
-      <div class="metric-card"><div class="metric-val yellow">3</div><div class="metric-lbl">Informal Decisions Surfaced</div></div>
-    </div></div>
-    <div class="report-section"><div class="report-section-title blue">Informal Decisions Surfaced</div>
-      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-esd-investigation (Feb 19)</strong> — Joe Laucks confirmed DNP U2 + soldermask fix validated on bench. Decision made in thread before formal doc written. Linked to RISK-013.</div></div>
-      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-hardware-builds (Feb 20)</strong> — Nick George acknowledged tumble FA ownership in thread. Not yet in any formal doc. Captured and linked to RISK-010.</div></div>
-      <div class="item-row"><div class="item-dot blue"></div><div class="item-text"><strong>#w3-compliance (Feb 17)</strong> — Simon Ma clarified EU cert restart trigger. Captured as decision note; linked to RISK-013 and weekly prep briefing.</div></div>
+    cmd:'/hub:slack-roundup', cmdClass:'modal-cmd-blue', title:'Slack Roundup — Feb 24, 2026',
+    meta:'Alpha · Via Glean MCP · Coverage: #-w3-alpha-support + 24 W3 channels',
+    html:`<div class="mcp-callout"><div class="mcp-callout-label">⚡ Glean MCP — Alpha Testing</div><div class="mcp-callout-text">Daily digest of W3 Slack activity pulled via Glean MCP. Surfaces decisions, blockers, and UX signals that never make it into formal documents. <strong>Captures the informal record formal docs miss.</strong></div></div>
+    <div class="report-section"><div class="report-section-title blue">TLDR — Feb 24, 2026</div>
+    <div class="status-banner blue"><span class="status-pill blue">Alpha Active</span><span class="status-text">SW team paused FW 1.1.3 rollout after discovering a critical bug — firmware updates can erase fingerprint data and brick devices. Alpha testers onboarding in parallel; several got through with workarounds. Two UX gaps surfaced from real-time tester feedback.</span></div></div>
+    <div class="report-section"><div class="report-section-title blue">Key Issues Surfaced</div>
+      <div class="item-row"><div class="item-dot red"></div><div class="item-text"><strong>FW 1.1.3 rollout paused</strong> — Bug causes fingerprint data loss on update, potentially bricking device. Gregory Price announcement at 20:44 PT. No resolution timeline yet.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>No fingerprint miss feedback on device</strong> — No visual or haptic feedback for partial touches or wrong-finger attempts. Ford confirmed absent. Channing Ritter and Kenny Lopez cc'd; messaging scope TBD.</div></div>
+      <div class="item-row"><div class="item-dot yellow"></div><div class="item-text"><strong>FW update animation obscured by thumb</strong> — Animation at bottom of screen hidden during checkmark press. Max flagged with design principle. No owner assigned.</div></div>
     </div>
-    <div class="source-note">📄 #w3-hardware-builds · #w3-touch-enablement · #w3-compliance · #w3-esd-investigation · Via Glean MCP · Alpha</div>`
+    <div class="report-section"><div class="report-section-title blue">Action Items</div>
+    <div class="table-wrap"><table><thead><tr><th>Item</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+      <tr><td>Resolve FW 1.1.3 fingerprint loss bug</td><td>Gregory Price / SW Team</td><td><span class="sync-badge-stale">BLOCKED</span></td></tr>
+      <tr><td>Tonight's app release — Cam's action proof</td><td>Cam (SW)</td><td><span class="sync-badge-upd">IN PROGRESS</span></td></tr>
+      <tr><td>Scope on-device fingerprint miss feedback</td><td>Channing Ritter, Kenny Lopez</td><td><span class="sync-badge-upd">DESIGN TBD</span></td></tr>
+      <tr><td>FW update animation visibility</td><td>UX / FW — unassigned</td><td><span class="sync-badge-upd">RAISED</span></td></tr>
+    </tbody></table></div></div>
+    <div class="source-note">📄 #-w3-alpha-support · 24 other W3 channels (no indexed results — after-hours + Glean indexing lag) · Via Glean MCP · Alpha</div>`
   },
+
   currency: {
-    cmd: '/hub:doc-currency', cmdClass: 'modal-cmd-blue', title: 'Documentation Currency Check',
-    meta: 'Run Feb 22, 2026 · Full vault audit · W3 Hardware Wallet',
-    html: `<div class="health-stat-row">
+    cmd:'/hub:doc-currency', cmdClass:'modal-cmd-blue', title:'Documentation Currency Check',
+    meta:'Run Feb 22, 2026 · Full vault audit · 47 documents',
+    html:`<div class="health-stat-row">
       <div class="metric-card"><div class="metric-val blue">47</div><div class="metric-lbl">Docs Audited</div></div>
       <div class="metric-card"><div class="metric-val green">38</div><div class="metric-lbl">Current</div></div>
       <div class="metric-card"><div class="metric-val red">9</div><div class="metric-lbl">Flagged</div></div>
     </div>
     <div class="report-section"><div class="report-section-title blue">Stale Documents</div>
     <div class="table-wrap"><table><thead><tr><th>Document</th><th>Last Updated</th><th>Issue</th></tr></thead><tbody>
-      <tr><td>DVT-Readiness-Dashboard</td><td>Jan 29</td><td><span class="sync-badge-stale">STALE</span> — Readiness assessment updated 3x since; dashboard not reconciled</td></tr>
-      <tr><td>RISK-010-W3-System-Weight-Drop-Performance</td><td>Feb 12</td><td><span class="sync-badge-stale">STALE</span> — Score re-escalated 2/19; risk doc not yet updated</td></tr>
+      <tr><td>DVT-Readiness-Dashboard</td><td>Jan 29</td><td><span class="sync-badge-stale">STALE</span> — Readiness assessment updated 3x since; not reconciled</td></tr>
+      <tr><td>RISK-010-W3-System-Weight-Drop-Performance</td><td>Feb 12</td><td><span class="sync-badge-stale">STALE</span> — Score re-escalated 2/19; risk doc not updated</td></tr>
       <tr><td>W3-Hardware-Wallet (hub)</td><td>Feb 9</td><td><span class="sync-badge-stale">STALE</span> — 8 linked docs updated since; hub 13 days behind</td></tr>
     </tbody></table></div></div>
     <div class="source-note">📄 Full vault audit · 47 documents · Stale threshold: 30 days with linked-doc changes</div>`
   },
-  crosslink: {
-    cmd: '/hub:cross-link', cmdClass: 'modal-cmd-blue', title: 'Cross-Document Linker',
-    meta: 'Run Feb 22, 2026 · W3 Hardware Wallet vault',
-    html: `<div class="health-stat-row">
-      <div class="metric-card"><div class="metric-val blue">23</div><div class="metric-lbl">New Links Added</div></div>
-      <div class="metric-card"><div class="metric-val blue">14</div><div class="metric-lbl">Doc Pairs Linked</div></div>
-      <div class="metric-card"><div class="metric-val green">+18%</div><div class="metric-lbl">Graph Density Improvement</div></div>
+
+  github: {
+    cmd:'git', cmdClass:'modal-cmd-dark', title:'GitHub — Version Control & Org-Wide Scaling',
+    meta:'W3 Hardware Wallet vault · Block Hardware Engineering',
+    html:`<div class="gh-callout"><div class="gh-callout-label">⎇ Why GitHub Is the Path to Scale</div><div class="gh-callout-text">The vault lives in a git repository. Every document, every command, every change is versioned and traceable. That's not just good hygiene — it's the infrastructure that lets this platform expand from one program to every NPI program in the organization, with shared knowledge and no duplication.</div></div>
+    <div class="report-section"><div class="report-section-title dark">How It Works Today — W3</div>
+      <div class="item-row"><div class="item-dot gray"></div><div class="item-text"><strong>Full revision history</strong> — Every document change is committed with a timestamp and message. You can diff any document across time, see exactly when a risk score changed, or trace when a decision was first documented.</div></div>
+      <div class="item-row"><div class="item-dot gray"></div><div class="item-text"><strong>Branching for build phases</strong> — DVT, PVT, and production knowledge can branch and merge cleanly. No more "final_v3_REAL.docx" — the repo is the single source of truth.</div></div>
+      <div class="item-row"><div class="item-dot gray"></div><div class="item-text"><strong>Rollback and audit trail</strong> — If a decision document is overwritten or a risk is incorrectly closed, the full history is recoverable. Every change is attributed to a person and a time.</div></div>
     </div>
-    <div class="report-section"><div class="report-section-title blue">High-Value Links Added</div>
-    <div class="table-wrap"><table><thead><tr><th>From</th><th>To</th><th>Relationship</th></tr></thead><tbody>
-      <tr><td>2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis</td><td>RISK-010</td><td>Failure evidence → risk record</td></tr>
-      <tr><td>2026-02-20-W3-ESD-Mitigation-Sync</td><td>RISK-013</td><td>Root cause confirmation → risk record</td></tr>
-      <tr><td>DVT-Readiness-Assessment-2026-02-17</td><td>Tumble-Failure-Analysis</td><td>Readiness condition → supporting evidence</td></tr>
-      <tr><td>Master-MIL</td><td>DVT-Readiness-Assessment-2026-02-17</td><td>Carry-forward items → gate readiness</td></tr>
-    </tbody></table></div></div>
-    <div class="source-note">📄 Bidirectional link scan · 47 documents · W3 Hardware Wallet vault</div>`
+    <div class="report-section"><div class="report-section-title dark">The Org-Wide Scaling Vision</div>
+      <div class="highlight-box"><div class="highlight-box-title">Shared Program Repos</div><div class="highlight-box-desc">Each NPI program (W3, R2, next platform) gets its own vault repo. Common structures — risk frameworks, MIL schemas, gate criteria templates — live in a shared library repo that all programs inherit from. One update to the template propagates everywhere.</div></div>
+      <div class="highlight-box"><div class="highlight-box-title">Cross-Program Knowledge</div><div class="highlight-box-desc">When W3 DVT surfaces a Corian tumble failure, that finding can be formally referenced by the next program. Git submodules or cross-repo links mean institutional knowledge doesn't stay trapped in one program's vault — it becomes org infrastructure.</div></div>
+      <div class="highlight-box"><div class="highlight-box-title">CI/CD for Program Documentation</div><div class="highlight-box-desc">Pull requests for major decisions. Automated checks that flag stale risk registers or missing BRR criteria before gate reviews. The same engineering rigor applied to hardware — applied to the knowledge that drives hardware decisions.</div></div>
+    </div>
+    <div class="source-note">📄 W3 vault repo · Block Hardware Engineering · NPI Intelligence Platform</div>`
   },
 
-  // SKILL CHAT MODALS
   skill_brief: {
-    cmd: 'Brief Me', cmdClass: 'modal-cmd-red', title: 'Conversational Skill — Pre-Meeting Brief',
-    meta: 'Example prompt · Claude Code · W3 Hardware Wallet vault',
+    cmd:'Brief Me', cmdClass:'modal-cmd-red', title:'Conversational Skill — Pre-Meeting Brief',
+    meta:'Example prompt · Claude Code · W3 Hardware Wallet vault',
     html: chatModal(
       `Brief me on the BRR. I'm walking in in 20 minutes — where do the three decisions stand, what's most likely to blow up, and anything that surfaced in the last 48 hours I might not have seen.`,
       `<strong>BRR Pre-Brief — Feb 23, 2026</strong><br><br>
-      <strong>NFC</strong> — Ahmad's results are in. W3 is +30% stronger than W1 and ISO 14443 compliant. Recommended path is DVT GO with 2–3 variants. Should be a clean decision.<br><br>
+      <strong>NFC</strong> — Ahmad's results are in. W3 is +30% stronger than W1, ISO 14443 compliant. Recommended path is DVT GO with 2–3 variants. Should be a clean decision.<br><br>
       <strong>Touch UX</strong> — Alpha ran 2/17–2/23. Threshold is ≥90% task completion. Tap accuracy is marginal (1.75mm vs 1.5mm target) — expect it to come up. TTW regression does NOT block DVT.<br><br>
       <strong>ESD</strong> — Root cause confirmed 2/19: soldermask pullback + DNP U2, no PCB spin. Expected GO with multi-unit validation (2/28).<br><br>
-      <strong>Most likely to blow up:</strong> Tumble FA. 5/5 Corian chip-off at 0.5m, FA ownership unassigned as of yesterday. DVT wall is thinner than the failing test units. If Nick and Israel don't have a clear severity story, this will dominate the room…`,
-      ['DVT-Readiness-Assessment-2026-02-17', '2026-02-23-Weekly-Prep-Briefing', 'RISK-013-W3-ESD-GTM-Launch-Impact', 'RISK-010-W3-System-Weight-Drop-Performance', '2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis']
+      <strong>Most likely to blow up:</strong> Tumble FA. 5/5 Corian chip-off at 0.5m, FA ownership unassigned as of yesterday. DVT wall is thinner than the failing units. If Nick and Israel don't have a clear severity story, this will dominate the room…`,
+      ['DVT-Readiness-Assessment-2026-02-17','2026-02-23-Weekly-Prep-Briefing','RISK-013','RISK-010','2026-02-19-W3-PDVT-REL-Tumble-Failure-Analysis']
     )
   },
   skill_synthesize: {
-    cmd: 'Synthesize What We Know', cmdClass: 'modal-cmd-red', title: 'Conversational Skill — Cross-Build Synthesis',
-    meta: 'Example prompt · Claude Code · W3 Hardware Wallet vault',
+    cmd:'Synthesize What We Know', cmdClass:'modal-cmd-red', title:'Conversational Skill — Cross-Build Synthesis',
+    meta:'Example prompt · Claude Code · W3 Hardware Wallet vault',
     html: chatModal(
       `What did EVT teach us about NFC that's relevant to the flex design change we're making for DVT? Pull everything — issues, decisions, test results, meeting notes.`,
       `<strong>NFC — EVT Learnings Relevant to DVT Flex Design</strong><br><br>
-      <strong>The core EVT problem:</strong> NFC flex pinch (MIL-041, P0) was the critical failure — flex routing created mechanical interference under assembly load, causing intermittent comms failures at FATP. Drove a dedicated fixture redesign and shorter flex path for DVT (EE-7164, HW-009).<br><br>
-      <strong>What antenna tuning locked in:</strong> BOM locked 1/17 with 3 capacitor values. Addressed MIL-044 (high retest rates) and MIL-035 (comms failures at MLB test) — both resolved by antenna change, not the flex.<br><br>
-      <strong>The flex-specific DVT risk:</strong> EVT data shows failure was position-sensitive. Units 21 and 24 in PDVT showed earliest NFC failures correlated with flex shift at the FPS station (MIL-042). DVT assumes shorter flex eliminates pinch risk — but this hasn't been validated on DVT geometry yet…`,
-      ['Master-MIL (MIL-041, MIL-044, MIL-042, MIL-035)', 'EVT-Build-Summary', 'PDVT-Build-Summary', 'DVT-Readiness-Assessment-2026-02-17']
+      <strong>The core EVT problem:</strong> NFC flex pinch (MIL-041, P0) was the critical failure — flex routing caused mechanical interference under assembly load, driving intermittent comms failures at FATP. This drove a shorter flex and dedicated fixture for DVT (EE-7164, HW-009).<br><br>
+      <strong>What antenna tuning locked in:</strong> BOM locked 1/17 with 3 capacitor values. Addressed MIL-044 (high retest rates) and MIL-035 (comms failures at MLB test) — resolved by antenna change, not the flex.<br><br>
+      <strong>The flex-specific DVT risk:</strong> EVT data shows failure was position-sensitive. Units 21 and 24 in PDVT showed earliest NFC failures correlated with flex shift at the FPS station (MIL-042). DVT assumes shorter flex eliminates pinch risk — but not yet validated on DVT geometry…`,
+      ['Master-MIL (MIL-041, MIL-044, MIL-042)','EVT-Build-Summary','PDVT-Build-Summary','DVT-Readiness-Assessment-2026-02-17']
     )
   },
   skill_draft: {
-    cmd: 'Draft It', cmdClass: 'modal-cmd-red', title: 'Conversational Skill — Document Drafting',
-    meta: 'Example prompt · Claude Code · W3 Hardware Wallet vault',
+    cmd:'Draft It', cmdClass:'modal-cmd-red', title:'Conversational Skill — Document Drafting',
+    meta:'Example prompt · Claude Code · W3 Hardware Wallet vault',
     html: chatModal(
       `Draft the Ok2Vegas criteria one-pager. Leadership needs it by tomorrow morning. What has to be true by April 20 to ship 600 units, and what's the current status of each.`,
       `<strong>W3 Ok2Vegas Criteria — April 27 Bitcoin Vegas Event</strong><br>
       <em>Draft · Feb 22, 2026 · For leadership review</em><br><br>
-      <strong>1. DVT Complete — 700+ units through FATP</strong> 🟢 On track. Build window Mar 4–28. Vegas config (720 units) held until 700+ through FATP. Drop dead: Apr 20.<br><br>
+      <strong>1. DVT Complete — 700+ units through FATP</strong> 🟢 On track. Build window Mar 4–28. Vegas config delayed until 700+ through FATP. Drop dead: Apr 20.<br><br>
       <strong>2. US/Canada Regulatory Cert</strong> 🟡 In progress. FCC/IC target Apr 20. ESD failure does NOT impact US cert. 7-day buffer to event.<br><br>
       <strong>3. Software Day-1 Readiness</strong> 🟡 Tracking. 3-week internal beta in March. TTW regression must resolve before Apr 27. (RISK-008, score 12)<br><br>
       <strong>4. Heavy Housing GO — Vegas BOM Lock</strong> 🔴 Open. March 14 BOM lock depends on MINI RHEL results (Mar 7) and tumble FA. Contingencies dual-driven…`,
-      ['DVT-Readiness-Assessment-2026-02-17', '2026-02-17-W3-Core-Team-Agenda', 'RISK-008-W3-Software-Day1-Readiness', 'RISK-009-W3-Regulatory-Certification', 'RISK-010-W3-System-Weight-Drop-Performance']
+      ['DVT-Readiness-Assessment-2026-02-17','RISK-008','RISK-009','RISK-010','2026-02-17-W3-Core-Team-Agenda']
     )
   },
   skill_interpret: {
-    cmd: 'Interpret New Information', cmdClass: 'modal-cmd-red', title: 'Conversational Skill — External Document Analysis',
-    meta: 'Example prompt · Claude Code · W3 Hardware Wallet vault',
+    cmd:'Interpret New Information', cmdClass:'modal-cmd-red', title:'Conversational Skill — External Document Analysis',
+    meta:'Example prompt · Claude Code · W3 Hardware Wallet vault',
     html: chatModal(
-      `Here's the Phase 2 REL tumble test report [attached]. Tell me what's new, what conflicts with what we expected going in, and what it means for DVT.`,
+      `Here's the Phase 2 REL tumble test report [attached]. Tell me what's new, what conflicts with what we expected, and what it means for DVT.`,
       `<strong>Phase 2 Tumble — What's New, What Conflicts, What It Means</strong><br><br>
-      <strong>What's new:</strong> 5/5 units failed 0.5m tumble via Corian chip-off. Earliest at cycle 20. Heavy set down and random vibe are clean. Failure is specific to sustained multi-directional tumble — Corian brittleness under that load pattern.<br><br>
-      <strong>What conflicts:</strong> Feb 7 readiness assessment scored RISK-010 at Medium/6 with drop parity confirmed. The vault's prior assumption was Phase 2 would validate heavy housing. These results directly contradict that. Critically — DVT retains Corian with a <em>thinner wall</em> than the failing test units. That geometry wasn't flagged as a risk in any prior document.<br><br>
+      <strong>What's new:</strong> 5/5 units failed 0.5m tumble via Corian chip-off. Earliest at cycle 20. Heavy set down and random vibe clean. Failure is specific to sustained multi-directional tumble loading on a brittle material.<br><br>
+      <strong>What conflicts:</strong> Feb 7 readiness assessment scored RISK-010 at Medium/6 with drop parity confirmed. The vault's prior assumption was Phase 2 would validate heavy housing. These results directly contradict that. Critically — DVT retains Corian with a <em>thinner wall</em> than the failing units. That geometry wasn't flagged as a risk in any prior document.<br><br>
       <strong>What it means:</strong> RISK-010 needs re-scoring immediately — Medium/6 is no longer defensible. March 14 heavy housing GO/NO-GO is now a real gate, not a formality…`,
-      ['DVT-Readiness-Assessment-2026-02-07', 'DVT-Readiness-Assessment-2026-02-17', 'RISK-010-W3-System-Weight-Drop-Performance', '2025-12-16-W3-System-Weight-Strategy']
+      ['DVT-Readiness-Assessment-2026-02-07','DVT-Readiness-Assessment-2026-02-17','RISK-010','2025-12-16-W3-System-Weight-Strategy']
     )
   },
   skill_surface: {
-    cmd: "Surface What You're Not Seeing", cmdClass: 'modal-cmd-red', title: 'Conversational Skill — Proactive Pattern Detection',
-    meta: 'Example prompt · Claude Code · W3 Hardware Wallet vault',
+    cmd:"Surface What You're Not Seeing", cmdClass:'modal-cmd-red', title:"Conversational Skill — Proactive Pattern Detection",
+    meta:'Example prompt · Claude Code · W3 Hardware Wallet vault',
     html: chatModal(
       `Do a full sweep and tell me what I should be worried about that hasn't been escalated yet — things slipping, patterns across builds, risks that haven't been updated.`,
       `<strong>Vault Sweep — Unescalated Concerns</strong><br><br>
-      <strong>1. RISK-010 score is stale.</strong> Register still shows Medium/6. Tumble failure re-escalated it to High/12 in the readiness assessment — but the RISK-010 doc itself hasn't been updated. Anyone reading the register today sees a score 6 points too low.<br><br>
-      <strong>2. EU cert restart trigger is undocumented.</strong> Staggered launch strategy appears in 4 documents. None define the specific trigger for restarting EU cert. Simon Ma is listed as owner — no decision doc, no date, no explicit criteria.<br><br>
+      <strong>1. RISK-010 score is stale.</strong> Register still shows Medium/6. Tumble failure re-escalated it to High/12 in the readiness assessment — the RISK-010 doc hasn't been updated. Anyone reading the register today sees a score 6 points too low.<br><br>
+      <strong>2. EU cert restart trigger is undocumented.</strong> Staggered launch strategy appears in 4 documents. None define the specific trigger for restarting EU cert. Simon Ma is listed as owner — no decision doc, no date, no criteria.<br><br>
       <strong>3. MIL-030 still shows as Watching.</strong> System weight strategy was decided at DMR1. MIL-030 hasn't been formally closed — noise in the active issue count.<br><br>
-      <strong>4. Feb 13 DVT quantity update is overdue.</strong> Revised quantities for US SKU front-loading (Jamille, Brett) were due Feb 13. Listed as overdue in the Feb 17 agenda with no resolution in any subsequent document…`,
-      ['Master-MIL', 'RISK-010-W3-System-Weight-Drop-Performance', '2026-02-23-Weekly-Prep-Briefing', '2026-02-17-W3-Core-Team-Agenda', 'RISK-013-W3-ESD-GTM-Launch-Impact']
+      <strong>4. Feb 13 DVT quantity update is overdue.</strong> Revised quantities for US SKU front-loading (Jamille, Brett) due Feb 13. Listed as overdue in Feb 17 agenda, no resolution in any subsequent document…`,
+      ['Master-MIL','RISK-010','2026-02-23-Weekly-Prep-Briefing','2026-02-17-W3-Core-Team-Agenda','RISK-013']
     )
   }
 };
@@ -565,8 +593,7 @@ const reports = {
 function openModal(key) {
   const r = reports[key];
   const cmdEl = document.getElementById('modalCmd');
-  cmdEl.textContent = r.cmd;
-  cmdEl.className = r.cmdClass;
+  cmdEl.textContent = r.cmd; cmdEl.className = r.cmdClass;
   document.getElementById('modalTitle').textContent = r.title;
   document.getElementById('modalMeta').textContent = r.meta;
   document.getElementById('modalBody').innerHTML = r.html;
